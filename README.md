@@ -33,9 +33,8 @@ Chloe’s Crafty Pom Poms Ownership NFT v Shipping Receipt NFT
 
 Chloe’s Crafty Pom Poms Ownership NFT v Refund Receipt NFT 2% fee
 
-![Chloe’s Crafty Pom Poms(1)](https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/1324673f-d633-4b75-9e8a-22197f447c3a)
-
-https://miro.com/app/board/uXjVK8r6iEs=/?share_link_id=595447320342
+![Chloe’s Crafty Pom Poms(2)](https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/2c2e90cd-c8b9-48a3-ac32-f4c820404b7d)
+### https://miro.com/app/board/uXjVK8r6iEs=/?share_link_id=595447320342
 
 
 # TokenScript
