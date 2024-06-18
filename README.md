@@ -27,6 +27,9 @@ Chloe’s Crafty Pom Poms Ownership NFT v $
 Chloe’s Crafty Pom Poms Ownership NFT v Shipping Receipt NFT
 
 ## DvP contract
+
+https://smartlayer-att.vercel.app/offer
+
 Hold $, provide DvP logic, collect fees.
 
 Chloe’s Crafty Pom Poms Ownership NFT, Shipping Receipt NFT, Refund Receipt NFT are all pre approved to DvP contract.
