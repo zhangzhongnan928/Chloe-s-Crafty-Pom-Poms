@@ -11,6 +11,10 @@ A NFT to repersent the ownership of a Pom Pom. 10% royalty
 
 Shipping API https://goshippo.com/
 
+Primary sell link example https://viewer.tokenscript.org/?chain=84532&contract=0xCb53cF1bEc34A732D06BD4312E1b04D2479E45C7#card=Primary&tokenId=1
+
+Resell link example https://viewer.tokenscript.org/?chain=84532&contract=0xCb53cF1bEc34A732D06BD4312E1b04D2479E45C7#card=Resell&tokenId=1
+
 ## Shipping Receipt NFT
 A NFT to repersent the ownership of a Shipping Reciept. 
 
