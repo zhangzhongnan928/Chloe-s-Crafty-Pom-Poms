@@ -9,6 +9,8 @@ Physical Goods Token: More inclusive, further reduces friction in trading physic
 ## Chloe’s Crafty Pom Poms Ownership NFT
 A NFT to repersent the ownership of a Pom Pom. 10% royalty  
 
+Shipping API https://goshippo.com/
+
 ## Shipping Receipt NFT
 A NFT to repersent the ownership of a Shipping Reciept. 
 
