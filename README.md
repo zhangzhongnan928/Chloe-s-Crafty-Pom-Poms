@@ -28,6 +28,8 @@ Confirm refunding and burn "Chloe’s Crafty Pom Poms Ownership NFT" to get the 
 ## Governance Token
 An ERC-20 token earned by each successful DvPs:
 
+Points will be issued to both buyer and seller if a successful sales (whenever our DvP contract take a 2% fee) is done via our DvP contract. Points amount can be based on how much fee collected for that TX, then half to buyer, half to seller.
+
 Chloe’s Crafty Pom Poms Ownership NFT v $
 
 Chloe’s Crafty Pom Poms Ownership NFT v Shipping Receipt NFT
