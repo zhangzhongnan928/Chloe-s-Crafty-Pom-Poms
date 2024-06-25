@@ -50,6 +50,12 @@ contract ShippingDvP is Ownable {
         uint256 tokenId;
         uint256 escrowValue;
         string shippingAddress;
+        uint256 shippingFeePaid;
+    }
+
+    struct ShippingInstruction {
+        string shippingAddress;
+        uint256 shippingFeePaid;
     }
 
     // mapping of escrows
@@ -58,7 +64,7 @@ contract ShippingDvP is Ownable {
     mapping (bytes32 => bool) public _deliveryComplete;
     mapping (address => bytes32[]) private _forDelivery;
 
-    mapping (bytes32 => string) private _shippingAddresses; //TODO: Remove and move to secure chat system
+    mapping (bytes32 => ShippingInstruction) private _shippingAddresses; //TODO: Remove and move to secure chat system
 
     // mapping of points
     mapping (address => uint256) private _points;
@@ -68,7 +74,7 @@ contract ShippingDvP is Ownable {
     event CompleteDelivery(address indexed seller, address indexed purchaser, address indexed nftContract, uint256 tokenId);
     event RefundPurchase(address indexed refundee, address indexed nftContract, uint256 tokenId, uint256 refundValue);
     event ListForResale(address indexed seller, address indexed sender, address indexed nftContract, uint256 tokenId, uint256 newNftPrice);
-    event MarkForDeliver(address indexed nftContract, uint256 tokenId);
+    event MarkForDeliver(address indexed nftContract, uint256 tokenId, uint256 shippingCost);
 
     constructor(address megabucksContract, address shippingReceipt, address refundReceipt)
         Ownable(msg.sender)
@@ -192,14 +198,14 @@ contract ShippingDvP is Ownable {
         // mark delivery request
         _escrowEntries[entryHash].nftPrice = UINT256_MAX; // marked for delivery (note at this point, there's no entry in the listing table)
 
-        _shippingAddresses[entryHash] = deliveryAddress;
+        _shippingAddresses[entryHash] = ShippingInstruction(deliveryAddress, shippingCost);
         _escrowEntries[entryHash].entryIndex = _forDelivery[nftEntry.deliverer].length;
         _forDelivery[nftEntry.deliverer].push(entryHash);
 
         //after state changes, transfer delivery fee
         SafeERC20.safeTransferFrom(IERC20(_megabucks), msg.sender, nftEntry.deliverer, shippingCost);
         
-        emit MarkForDeliver(tokenContract, tokenId);
+        emit MarkForDeliver(tokenContract, tokenId, shippingCost);
 
         //must now burn the token to avoid it being listed
         GenericNFT(tokenContract).dvpBurn(tokenId);
@@ -298,7 +304,8 @@ contract ShippingDvP is Ownable {
         for (uint256 i = 0; i < deliveryHashes.length; i++) {
             NFTEntry memory thisEntry = _escrowEntries[deliveryHashes[i]];
             if (thisEntry.deliverer == seller && thisEntry.tokenContract == tokenContract) {
-                deliveries[thisDeliveryIndex] = NFTDelivery(thisEntry.tokenId, thisEntry.escrowValue, _shippingAddresses[deliveryHashes[i]]);
+                deliveries[thisDeliveryIndex] = NFTDelivery(thisEntry.tokenId, thisEntry.escrowValue, 
+                _shippingAddresses[deliveryHashes[i]].shippingAddress, _shippingAddresses[deliveryHashes[i]].shippingFeePaid);
                 thisDeliveryIndex++;
             }
         }
