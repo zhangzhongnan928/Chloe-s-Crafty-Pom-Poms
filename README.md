@@ -1,7 +1,7 @@
-# Chloe-s-Crafty-Pom-Poms
+# Chloe's Crafty Pom Poms
 Physical Goods Token: More inclusive, further reduces friction in trading physical goods.
+![Chloe's Crafty Pom Poms](https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/b8cb327f-242f-427c-869a-7e0c7c98c333)
 
-![Pom Poms](https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/50c0d418-2d04-43b1-87fe-23c32d619586)
 
 
 # Contracts
