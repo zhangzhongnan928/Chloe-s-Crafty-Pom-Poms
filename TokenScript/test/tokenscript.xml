@@ -20,8 +20,34 @@
     <ts:contract interface="erc721" name="Token">
         <ts:address network="11155111">0xA0343dfd68FcD7F18153b8AB87936c5A9C1Da20e</ts:address>
     </ts:contract>
-    <ts:contract interface="erc20" name="DVP">
+    <ts:contract name="DVP">
         <ts:address network="11155111">0x84759f034fEa769052B19f9b5bE94678E0426107</ts:address>
+        <ts:abi>
+			<![CDATA[
+			[
+				{
+				  "inputs": [
+					{
+					  "internalType": "address",
+					  "name": "tokenContract",
+					  "type": "address"
+					},
+                    {
+                      "internalType": "uint256",
+					  "name": "tokenId",
+					  "type": "uint256"
+                    }
+				  ],
+				  "name": "purchaseNFT",
+				  "outputs": [
+					
+				  ],
+				  "stateMutability": "nonpayable",
+				  "type": "function"
+				}
+			]
+			]]>
+		</ts:abi>
     </ts:contract>
     <ts:origins>
         <ts:ethereum contract="Token"/>
@@ -72,17 +98,18 @@
             </ts:transaction>
         </ts:card>
 
-        <ts:card type="onboarding" name="purchase" buttonClass="primary" origins="ThisToken">
+        <ts:card type="onboarding" name="purchase" buttonClass="primary">
             <ts:label>
                 <ts:string xml:lang="en">
                     Purchase Pom Pom
                 </ts:string>
             </ts:label>
+        
             <ts:transaction>
-                <ethereum:transaction function="purchaseNFT" contract="DVP">
+                <ethereum:transaction contract="DVP" function="purchaseNFT" >
                     <ts:data>
                         <ts:address>0xA0343dfd68FcD7F18153b8AB87936c5A9C1Da20e</ts:address>
-                        <ts:uint256 ref="tokenId"/>
+                        <ts:uint256 ref="purchaseTokenId"/>
                     </ts:data>
                 </ethereum:transaction>
             </ts:transaction>
@@ -93,5 +120,12 @@
         </ts:card>
 
 	</ts:cards>
+
+    <ts:attribute name="purchaseTokenId">
+				<ts:type><ts:syntax>1.3.6.1.4.1.1466.115.121.1.27</ts:syntax></ts:type>
+				<ts:origins>
+					<ts:user-entry as="uint" />
+				</ts:origins>
+			</ts:attribute>
 
 </ts:token>

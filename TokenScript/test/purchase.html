@@ -24,11 +24,25 @@
     
     <h1>Here is a list of available Pom Pom for purchase</h1>
     <br></br>
-    <div id="purchaselist"/>
+    <div id="purchaselist"></div>
     <br></br>
     <h2>Select TokenId to purchase</h2>
-    <input type="text" id="tokenId" value="Token ID"/>
+    <input type="text" id="currentTokenId" />
     <script type="text/javascript">
+
+    // Global JavaScript variable
+    let purchaseTokenId = -1;
+
+    function updateSelectedTokenId(event) {
+        purchaseTokenId = event.target.value;
+        console.log("Selected Token ID:", purchaseTokenId);
+        web3.action.setProps({
+			purchaseTokenId
+		});
+    }
+
+    document.getElementById('currentTokenId').addEventListener('input', updateSelectedTokenId);
+
     function createTokenHTML(item) {
         return `
         <div class="token-box">
@@ -39,32 +53,34 @@
         </div>
         `;
     }
+
+    const dvpContract = '0x84759f034fEa769052B19f9b5bE94678E0426107';
     
     const provider = new ethers.JsonRpcProvider(rpcURL, {
-        chainId: chainID,
+        chainId: Number(chainID),
         name: 'sepolia'
     });
-    const purchaseCaller = new ethers.Contract('0x84759f034fEa769052B19f9b5bE94678E0426107', [
-        "struct NFTEntry { address deliverer; address seller; address tokenContract; uint256 tokenId; uint256 nftPrice; uint256 escrowValue; uint256 entryIndex; uint32 expiryBlockTime; }",
-        "function getCurrentListings(address tokenContract) public view returns (NFTEntry[] memory)"
+
+    const purchaseCaller = new ethers.Contract(dvpContract, [
+        "function getCurrentListings(address tokenContract) public view returns (tuple(address,address,address,uint256,uint256,uint256,uint256,uint32)[])"
     ], provider);
 
     async function getCurrentListings() {
         try {
             // Call the contract method
-            const saleList = await purchaseCaller.getCurrentListings(_currentTokenInstance.contractAddress);
-            console.log("SaleList:", saleList);
+            const saleList = await purchaseCaller.getCurrentListings(currentTokenInstance.contractAddress);
+            console.log("SaleList: " + saleList);
 
             // Format the result into JSON
             const saleListJSON = saleList.map(entry => ({
-                deliverer: entry.deliverer,
-                seller: entry.seller,
-                tokenContract: entry.tokenContract,
-                tokenId: entry.tokenId.toString(), // Convert BigNumber to string
-                nftPrice: entry.nftPrice.toString(), // Convert BigNumber to string
-                escrowValue: entry.escrowValue.toString(), // Convert BigNumber to string
-                entryIndex: entry.entryIndex.toString(), // Convert BigNumber to string
-                expiryBlockTime: entry.expiryBlockTime.toString() // Convert BigNumber to string
+                deliverer: entry[0],
+                seller: entry[1],
+                tokenContract: entry[2],
+                tokenId: entry[3].toString(), 
+                nftPrice: entry[4].toString(),
+                escrowValue: entry[5].toString(),
+                entryIndex: entry[6].toString(), 
+                expiryBlockTime: entry[7].toString() 
             }));
 
             // Return the JSON object
@@ -75,14 +91,12 @@
         }
     }
 
-    let jsonData = getCurrentListings(); // Can this be called after the page settles?
-
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", async function() {
         //call function
         let saleList = null;
 
         try {
-            //let jsonData = await getCurrentListings();
+            let saleList = await getCurrentListings();
             
             console.log("SaleList:", saleList);
 
