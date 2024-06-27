@@ -23,6 +23,7 @@ contract ShippingDvP is Ownable {
     uint256 public constant INITIAL_PAYMENT_FACTOR = 294 * 100; // (30% of 98%)
     uint256 constant _FEE_DECIMALS = 100 * 1000;
     uint256 private constant UINT256_MAX = type(uint256).max;
+    uint32  public constant SHORTEST_EXPIRY = 60 * 30; // Half hour
 
     uint256 constant POINTS_PER_SALE = 10;
     uint256 constant POINTS_PER_PURCHASE = 2;
@@ -44,6 +45,7 @@ contract ShippingDvP is Ownable {
         uint256 nftPrice;   // current listed price of NFT
         uint256 escrowValue;// send funds to delivery address on goods completion
         uint256 entryIndex; // entry into DVP contract listing index
+        uint32  expiryBlockTime; // Blocktime for expiry
     }
 
     struct NFTDelivery {
@@ -91,8 +93,8 @@ contract ShippingDvP is Ownable {
     // TODO: extra set of functions for NFT without any hooks
 
     // 1. DvP contract takes ownership of NFT
-    //    First time listing:
-    function listToDVP(address tokenContract, uint256 tokenId, uint256 tokenPrice) public {
+    // TODO: This should be an attestation system with optional timeout
+    function listToDVP(address tokenContract, uint256 tokenId, uint256 tokenPrice, uint32 expiryTime) public {
         bytes32 entryHash = getEntryHash(tokenContract, tokenId);
         NFTEntry memory nftEntry = _escrowEntries[entryHash];
         address nftOwner = IERC721(tokenContract).ownerOf(tokenId);
@@ -101,7 +103,8 @@ contract ShippingDvP is Ownable {
         require(tokenPrice < UINT256_MAX, "Price too high");
         require(_deliveryComplete[entryHash] == false, "Cannot list completed NFT");
         require(nftEntry.nftPrice != UINT256_MAX, "Cannot list token marked for Delivery");
-        IERC721(tokenContract).transferFrom(msg.sender, address(this), tokenId);
+        require(expiryTime == 0 || expiryTime > uint32(block.timestamp) + SHORTEST_EXPIRY, "Expiry too soon");
+        //IERC721(tokenContract).transferFrom(msg.sender, address(this), tokenId);
 
         //Does the token already have an entry?
         
@@ -113,7 +116,7 @@ contract ShippingDvP is Ownable {
             emit ListForResale(nftEntry.seller, msg.sender, tokenContract, tokenId, tokenPrice);
         } else {
             // first listing
-            nftEntry = NFTEntry(msg.sender, msg.sender, tokenContract, tokenId, tokenPrice, 0, _nftListings[tokenContract].length);
+            nftEntry = NFTEntry(msg.sender, msg.sender, tokenContract, tokenId, tokenPrice, 0, _nftListings[tokenContract].length, expiryTime);
             _escrowEntries[entryHash] = nftEntry;
         }
         
@@ -137,6 +140,7 @@ contract ShippingDvP is Ownable {
         bytes32 entryHash = getEntryHash(tokenContract, tokenId);
         NFTEntry memory nftEntry = _escrowEntries[entryHash];
         require(nftEntry.seller != address(0) && nftEntry.nftPrice > 0, "Not available");
+        require(nftEntry.expiryBlockTime == 0 || nftEntry.expiryBlockTime > uint32(block.timestamp), "Listing Expired");
 
         // already pre-approved transfer of the ERC20 megabucks
         uint256 platformFee = nftEntry.nftPrice * PLATFORM_FEE_FACTOR / _FEE_DECIMALS;
@@ -157,8 +161,8 @@ contract ShippingDvP is Ownable {
         SafeERC20.safeTransferFrom(IERC20(_megabucks), msg.sender, address(this), platformFee + escrowValue);
         // payment to seller
         SafeERC20.safeTransferFrom(IERC20(_megabucks), msg.sender, nftEntry.seller, remainder);
-        // transfer ownership of NFT
-        IERC721(tokenContract).transferFrom(address(this), msg.sender, tokenId);
+        // transfer ownership of NFT from current owner
+        IERC721(tokenContract).transferFrom(nftEntry.seller, msg.sender, tokenId);
 
         // finally the state changes 
 
@@ -176,6 +180,9 @@ contract ShippingDvP is Ownable {
 
         emit PurchaseNFT(nftEntry.seller, msg.sender, tokenContract, tokenId, nftEntry.nftPrice);
     }
+
+    //2.5 purchase via attestation
+
 
     //3. Commit to delivery of physical goods
     //   - initiate delivery: burn NFT, Issue delivery receipt, flag to deliverer the delivery address
