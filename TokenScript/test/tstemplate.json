@@ -7,7 +7,7 @@
 			"name": "TokenScript name",
 			"token": "TOKENSCRIPT_NAME",
 			"prompt": "Enter a name for the TokenScript project",
-			"value": "Etherfantest"
+			"value": "PomPom"
 		},
 		{
 			"name": "Token type",
@@ -25,20 +25,20 @@
 			"name": "Contract address",
 			"token": "CONTRACT_ADDRESS",
 			"prompt": "Enter the ethereum contract address for the TokenScript",
-			"value": "0xb49e4420ea6e35f98060cd133842dbea9c27e479"
+			"value": "0xA0343dfd68FcD7F18153b8AB87936c5A9C1Da20e"
 		},
 		{
 			"name": "Contract chain",
 			"token": "CONTRACT_CHAIN",
 			"updatePrefix": "network=\"",
 			"prompt": "Enter the ethereum chainID for the TokenScript",
-			"value": "1"
+			"value": "11155111"
 		},
 		{
 			"name": "Description",
 			"token": "DESCRIPTION",
 			"prompt": "Enter a short description for the TokenScript",
-			"value": "A tokenscript"
+			"value": " "
 		},
 		{
 			"name": "About URL",
@@ -60,13 +60,13 @@
 				"yes",
 				"no"
 			],
-			"value": "yes"
+			"value": "no"
 		},
 		{
 			"name": "Trimmed Name",
 			"token": "TOKENSCRIPT_TRIM",
 			"prompt": "",
-			"value": "Etherfantest"
+			"value": "PomPom"
 		}
 	]
 }
