@@ -1,0 +1,341 @@
+<ts:token xmlns:ethereum="urn:ethereum:constantinople" xmlns:ts="http://tokenscript.org/2024/01/tokenscript" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="PomPom" xsi:schemaLocation="http://tokenscript.org/2024/01/tokenscript https://www.tokenscript.org/schemas/2024-01/tokenscript.xsd">
+	<ts:label>
+		<ts:plurals xml:lang="en">
+			<ts:string quantity="one">PomPom Token</ts:string>
+			<ts:string quantity="other">PomPom Tokens</ts:string>
+		</ts:plurals>
+	</ts:label>
+    	<ts:meta>
+        <ts:description xml:lang="en">
+            Physical Goods Token: More inclusive, further reduces friction in trading physical goods.
+        </ts:description>
+		<ts:iconUrl xml:lang="en">https://ipfs.io/ipfs/QmWbWvbNTqe46A5GoZ3PyDWshFWD9Xe4mpk6Y1Vpso96Yv</ts:iconUrl>
+    </ts:meta>
+    <ts:contract interface="erc721" name="Token">
+        <ts:address network="11155111">0xA0343dfd68FcD7F18153b8AB87936c5A9C1Da20e</ts:address>
+    </ts:contract>
+    <ts:contract name="DVP">
+        <ts:address network="11155111">0x84759f034fEa769052B19f9b5bE94678E0426107</ts:address>
+        <ts:abi>
+			
+			[
+				{
+				  "inputs": [
+					{
+					  "internalType": "address",
+					  "name": "tokenContract",
+					  "type": "address"
+					},
+                    {
+                      "internalType": "uint256",
+					  "name": "tokenId",
+					  "type": "uint256"
+                    }
+				  ],
+				  "name": "purchaseNFT",
+				  "outputs": [
+					
+				  ],
+				  "stateMutability": "nonpayable",
+				  "type": "function"
+				}
+			]
+			
+		</ts:abi>
+    </ts:contract>
+    <ts:origins>
+        <ts:ethereum contract="Token"/>
+    </ts:origins>
+	<ts:cards>
+		
+        <ts:card buttonClass="primary" name="transfer" origins="Token" type="action">
+            <ts:label>
+                <ts:string xml:lang="en">
+                    Transfer Pom Pom
+                </ts:string>
+            </ts:label>
+            <ts:transaction>
+                <ethereum:transaction contract="Token" function="transferFrom">
+                    <ts:data>
+                        <ts:address ref="ownerAddress"/>
+                        <ts:address ref="to"/>
+                        <ts:uint256 ref="tokenId"/>
+                    </ts:data>
+                </ethereum:transaction>
+            </ts:transaction>
+            <ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+                <p>Transfer your Pom Pom to another address by providing the recipient's address and the Pom Pom ID.</p>
+                <input id="to" type="text" value="Recipient Address"/>
+            </ts:view>
+        </ts:card>
+
+        
+        
+
+        <ts:card buttonClass="primary" name="ship" origins="Token" type="action">
+            <ts:label>
+                <ts:string xml:lang="en">
+                    Ship Pom Pom
+                </ts:string>
+            </ts:label>
+        
+            <ts:transaction>
+                <ethereum:transaction contract="DVP" function="deliver">
+                    <ts:data>
+                        <ts:address>0xA0343dfd68FcD7F18153b8AB87936c5A9C1Da20e</ts:address>
+                        <ts:uint256 ref="tokenId"/>
+                        <ts:string ref="addressEntry"/>
+                        <ts:uint256 ref="shippingCost"/>
+                    </ts:data>
+                </ethereum:transaction>
+            </ts:transaction>
+			<ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+				
+            <h2>Enter the physical shipping address and confirm to see the shipping cost.</h2>
+<input type="text" id="street1" placeholder="Street Address 1"/>
+<input type="text" id="street2" placeholder="Street Address 2"/>
+<input type="text" id="city" placeholder="City"/>
+<input type="text" id="state" placeholder="State"/>
+<input type="text" id="zip" placeholder="Postal Code"/>
+<input type="text" id="country" placeholder="Country"/>
+<br/><button id="confirm-button" onclick="showShippingCost()">Confirm</button>
+<div id="shipping-cost" style="display: none;">
+    <p>Shipping Cost: <span id="_shippingcost">1.0</span> $MB</p>
+</div>
+<div id="transaction-result"></div>
+<script type="text/javascript">//&lt;![CDATA[
+
+    function showShippingCost() {
+            const countryCode = document.getElementById('country').value.toUpperCase();
+            let cost = 5;
+            const shippingCosts = {
+                'USA': 1,
+                'CAN': 1.1,
+                'MEX': 2,
+                'BRA': 2,
+                'ARG': 4,
+                'UK': 1,
+                'FRA': 2,
+                'GER': 2,
+                'RUS': 10,
+                'CHN': 1.2,
+                'AUS': 3
+            };
+
+            if (shippingCosts[countryCode]) {
+                cost = shippingCosts[countryCode];
+            } else {
+                cost = 5;
+            }
+
+            document.getElementById('_shippingcost').innerHTML = cost;
+            document.getElementById('shipping-cost').style.display = 'block';
+
+            let _addressEntry = getAddress();
+            let _shippingCost = ethers.parseUnits(cost.toString(), 18);
+
+            //populate props
+            web3.action.setProps({
+			    addressEntry: _addressEntry,
+                shippingCost: _shippingCost
+		    });
+        }
+
+        function getAddress() {
+            let st1 = document.getElementById("street1").value;
+            let st2 = document.getElementById("street2").value;
+            let city = document.getElementById("city").value;
+            let state = document.getElementById("state").value;
+            let zip = document.getElementById("zip").value;
+            let country = document.getElementById("country").value;
+            return `${st1}, ${st2}, ${city}, ${state}, ${zip}, ${country}`;
+        }
+
+
+//]]&gt;</script></ts:view>
+            
+        </ts:card>
+
+        <ts:card buttonClass="primary" name="mint" origins="Token" type="action">
+        <ts:label>
+            <ts:string xml:lang="en">Mint</ts:string>
+        </ts:label>
+        <ts:transaction>
+                <ethereum:transaction contract="Token" function="safeMint">
+                    <ts:data>
+                        <ts:uint256>10000</ts:uint256>
+                        <ts:string> </ts:string>
+                    </ts:data>
+                </ethereum:transaction>
+            </ts:transaction>
+        </ts:card>
+
+        <ts:card buttonClass="primary" name="purchase" type="onboarding">
+            <ts:label>
+                <ts:string xml:lang="en">
+                    Purchase Pom Pom
+                </ts:string>
+            </ts:label>
+        
+            <ts:transaction>
+                <ethereum:transaction contract="DVP" function="purchaseNFT">
+                    <ts:data>
+                        <ts:address>0xA0343dfd68FcD7F18153b8AB87936c5A9C1Da20e</ts:address>
+                        <ts:uint256 ref="purchaseTokenId"/>
+                    </ts:data>
+                </ethereum:transaction>
+            </ts:transaction>
+			<ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+				
+            <style type="text/css">/*&lt;![CDATA[*/ 
+
+    .token-box {
+        display: flex;
+        align-items: center;
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin: 10px 0;
+        background-color: #f9f9f9;
+    }
+    .token-icon {
+        width: 50px;
+        height: 50px;
+        margin-right: 20px;
+    }
+    .token-id,
+    .token-price,
+    .token-expiry {
+        margin-right: 20px;
+    }
+    .token-id {
+        font-weight: bold;
+    }
+    
+ /*//]]&gt;*/</style>
+    
+    <h1>Here is a list of available Pom Pom for purchase</h1>
+    <br/><br/>
+    <div id="noitems" style="display: none;">No Items for sale</div>
+    <div id="purchaselist"></div>
+    <br/><br/>
+    <h2>Select TokenId to purchase</h2>
+    <input type="text" id="currentTokenId"/>
+    <script type="text/javascript">//&lt;![CDATA[
+
+
+    function updateSelectedTokenId(event) {
+        web3.action.setProps({
+			purchaseTokenId: event.target.value
+		});
+    }
+
+    document.getElementById('currentTokenId').addEventListener('input', updateSelectedTokenId);
+
+    function createTokenHTML(item) {
+        return `
+        &lt;div class="token-box"&gt;
+            &lt;img src="https://ipfs.io/ipfs/QmWbWvbNTqe46A5GoZ3PyDWshFWD9Xe4mpk6Y1Vpso96Yv" alt="Token Icon" class="token-icon"&gt;
+            &lt;div class="token-id"&gt;TokenID: ${item.tokenId}&lt;/div&gt;
+            &lt;div class="token-price"&gt;Price: ${item.nftPrice}&lt;/div&gt;
+            &lt;div class="token-expiry"&gt;Expiry: ${item.expiryBlockTime}&lt;/div&gt;
+        &lt;/div&gt;
+        `;
+    }
+
+    const dvpContract = '0x84759f034fEa769052B19f9b5bE94678E0426107';
+    
+    const provider = new ethers.JsonRpcProvider(rpcURL, {
+        chainId: Number(chainID),
+        name: 'sepolia'
+    });
+
+    const purchaseCaller = new ethers.Contract(dvpContract, [
+        "function getCurrentListings(address tokenContract) public view returns (tuple(address,address,address,uint256,uint256,uint256,uint256,uint32)[])"
+    ], provider);
+
+    async function getCurrentListings() {
+        try {
+            // Call the contract method
+            const saleList = await purchaseCaller.getCurrentListings(currentTokenInstance.contractAddress);
+            console.log("SaleList: " + saleList);
+
+            // Format the result into JSON
+            const saleListJSON = saleList.map(entry =&gt; ({
+                deliverer: entry[0],
+                seller: entry[1],
+                tokenContract: entry[2],
+                tokenId: entry[3].toString(), 
+                nftPrice: ethers.formatUnits(entry[4], 18) + " $MB",
+                escrowValue: entry[5].toString(),
+                entryIndex: entry[6].toString(), 
+                expiryBlockTime: entry[7].toString() 
+            }));
+
+            // Return the JSON object
+            return saleListJSON;
+        } catch (error) {
+            console.error("Error fetching listings:", error);
+            return null;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", async function() {
+        //call function
+        let saleList = null;
+
+        try {
+            let saleList = await getCurrentListings();
+            
+            console.log("SaleList:", saleList);
+
+            const container = document.getElementById('purchaselist');
+            var html = '';
+
+            if (saleList.length == 0) {
+                document.getElementById('noitems').style.display = 'block';
+            } else {
+
+                // Loop through the saleList and log each entry
+                saleList.forEach((entry, index) =&gt; {
+                    if (entry.deliverer != "0x0000000000000000000000000000000000000000") {
+                        html += createTokenHTML(entry);
+                    }
+                });
+            }
+
+            container.innerHTML = html;
+        } catch (error) {
+            console.log(`Owner error: ${error}`);
+            return false;
+        }
+
+        });
+    
+//]]&gt;</script></ts:view>
+            
+        </ts:card>
+
+	</ts:cards>
+
+    <ts:attribute name="purchaseTokenId">
+		<ts:type><ts:syntax>1.3.6.1.4.1.1466.115.121.1.27</ts:syntax></ts:type>
+		<ts:origins>
+			<ts:user-entry as="uint"/>
+		</ts:origins>
+	</ts:attribute>
+
+    <ts:attribute name="addressEntry">
+		<ts:type><ts:syntax>1.3.6.1.4.1.1466.115.121.1.36</ts:syntax></ts:type>
+			<ts:origins>
+				<ts:user-entry as="address"/>
+			</ts:origins>
+	</ts:attribute>
+
+    <ts:attribute name="shippingCost">
+		<ts:type><ts:syntax>1.3.6.1.4.1.1466.115.121.1.27</ts:syntax></ts:type>
+		<ts:origins>
+			<ts:user-entry as="uint"/>
+		</ts:origins>
+	</ts:attribute>        
+
+</ts:token>

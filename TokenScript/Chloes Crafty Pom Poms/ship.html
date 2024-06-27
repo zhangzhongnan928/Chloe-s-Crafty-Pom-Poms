@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<h2>Enter the physical shipping address and confirm to see the shipping cost.</h2>
+<input type="text" id="street1" placeholder="Street Address 1" />
+<input type="text" id="street2" placeholder="Street Address 2" />
+<input type="text" id="city" placeholder="City" />
+<input type="text" id="state" placeholder="State" />
+<input type="text" id="zip" placeholder="Postal Code" />
+<input type="text" id="country" placeholder="Country" />
+</br><button id="confirm-button" onclick="showShippingCost()">Confirm</button>
+<div id="shipping-cost" style="display: none;">
+    <p>Shipping Cost: <span id="_shippingcost">1.0</span> $MB</p>
+</div>
+<div id="transaction-result"></div>
+<script type="text/javascript">
+    function showShippingCost() {
+            const countryCode = document.getElementById('country').value.toUpperCase();
+            let cost = 5;
+            const shippingCosts = {
+                'USA': 1,
+                'CAN': 1.1,
+                'MEX': 2,
+                'BRA': 2,
+                'ARG': 4,
+                'UK': 1,
+                'FRA': 2,
+                'GER': 2,
+                'RUS': 10,
+                'CHN': 1.2,
+                'AUS': 3
+            };
+
+            if (shippingCosts[countryCode]) {
+                cost = shippingCosts[countryCode];
+            } else {
+                cost = 5;
+            }
+
+            document.getElementById('_shippingcost').innerHTML = cost;
+            document.getElementById('shipping-cost').style.display = 'block';
+
+            let _addressEntry = getAddress();
+            let _shippingCost = ethers.parseUnits(cost.toString(), 18);
+
+            //populate props
+            web3.action.setProps({
+			    addressEntry: _addressEntry,
+                shippingCost: _shippingCost
+		    });
+        }
+
+        function getAddress() {
+            let st1 = document.getElementById("street1").value;
+            let st2 = document.getElementById("street2").value;
+            let city = document.getElementById("city").value;
+            let state = document.getElementById("state").value;
+            let zip = document.getElementById("zip").value;
+            let country = document.getElementById("country").value;
+            return `${st1}, ${st2}, ${city}, ${state}, ${zip}, ${country}`;
+        }
+
+</script>
