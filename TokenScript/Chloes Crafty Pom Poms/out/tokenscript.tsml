@@ -92,12 +92,12 @@
 			<ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 				
             <h2>Enter the physical shipping address and confirm to see the shipping cost.</h2>
-<input type="text" id="street1" placeholder="Street Address 1"/>
-<input type="text" id="street2" placeholder="Street Address 2"/>
-<input type="text" id="city" placeholder="City"/>
-<input type="text" id="state" placeholder="State"/>
-<input type="text" id="zip" placeholder="Postal Code"/>
-<input type="text" id="country" placeholder="Country"/>
+<input type="text" id="street1" value="Street Address 1"/>
+<input type="text" id="street2" value="Street Address 2"/>
+<input type="text" id="city" value="City"/>
+<input type="text" id="state" value="State"/>
+<input type="text" id="zip" value="Postal Code"/>
+<input type="text" id="country" value="Country"/>
 <br/><button id="confirm-button" onclick="showShippingCost()">Confirm</button>
 <div id="shipping-cost" style="display: none;">
     <p>Shipping Cost: <span id="_shippingcost">1.0</span> $MB</p>
