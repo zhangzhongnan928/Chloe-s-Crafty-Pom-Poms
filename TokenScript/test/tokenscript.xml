@@ -78,9 +78,16 @@
                     Purchase Pom Pom
                 </ts:string>
             </ts:label>
-        
+            <ts:transaction>
+                <ethereum:transaction function="purchaseNFT" contract="DVP">
+                    <ts:data>
+                        <ts:address>0xA0343dfd68FcD7F18153b8AB87936c5A9C1Da20e</ts:address>
+                        <ts:uint256 ref="tokenId"/>
+                    </ts:data>
+                </ethereum:transaction>
+            </ts:transaction>
 			<ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-			   hello world
+				<ts:include type="html" src="./purchase.html" />
             </ts:view>
             
         </ts:card>

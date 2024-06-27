@@ -1,0 +1,104 @@
+<style type="text/css">
+    .token-box {
+        display: flex;
+        align-items: center;
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin: 10px 0;
+        background-color: #f9f9f9;
+    }
+    .token-icon {
+        width: 50px;
+        height: 50px;
+        margin-right: 20px;
+    }
+    .token-id,
+    .token-price,
+    .token-expiry {
+        margin-right: 20px;
+    }
+    .token-id {
+        font-weight: bold;
+    }
+    </style>
+    
+    <h1>Here is a list of available Pom Pom for purchase</h1>
+    <br></br>
+    <div id="purchaselist"/>
+    <br></br>
+    <h2>Select TokenId to purchase</h2>
+    <input type="text" id="tokenId" value="Token ID"/>
+    <script type="text/javascript">
+    function createTokenHTML(item) {
+        return `
+        <div class="token-box">
+            <img src="https://ipfs.io/ipfs/QmWbWvbNTqe46A5GoZ3PyDWshFWD9Xe4mpk6Y1Vpso96Yv" alt="Token Icon" class="token-icon">
+            <div class="token-id">TokenID: ${item.tokenId}</div>
+            <div class="token-price">Price: ${item.nftPrice}</div>
+            <div class="token-expiry">Expiry: ${item.expiryBlockTime}</div>
+        </div>
+        `;
+    }
+    
+    const provider = new ethers.JsonRpcProvider(rpcURL, {
+        chainId: chainID,
+        name: 'sepolia'
+    });
+    const purchaseCaller = new ethers.Contract('0x84759f034fEa769052B19f9b5bE94678E0426107', [
+        "struct NFTEntry { address deliverer; address seller; address tokenContract; uint256 tokenId; uint256 nftPrice; uint256 escrowValue; uint256 entryIndex; uint32 expiryBlockTime; }",
+        "function getCurrentListings(address tokenContract) public view returns (NFTEntry[] memory)"
+    ], provider);
+
+    async function getCurrentListings() {
+        try {
+            // Call the contract method
+            const saleList = await purchaseCaller.getCurrentListings(_currentTokenInstance.contractAddress);
+            console.log("SaleList:", saleList);
+
+            // Format the result into JSON
+            const saleListJSON = saleList.map(entry => ({
+                deliverer: entry.deliverer,
+                seller: entry.seller,
+                tokenContract: entry.tokenContract,
+                tokenId: entry.tokenId.toString(), // Convert BigNumber to string
+                nftPrice: entry.nftPrice.toString(), // Convert BigNumber to string
+                escrowValue: entry.escrowValue.toString(), // Convert BigNumber to string
+                entryIndex: entry.entryIndex.toString(), // Convert BigNumber to string
+                expiryBlockTime: entry.expiryBlockTime.toString() // Convert BigNumber to string
+            }));
+
+            // Return the JSON object
+            return saleListJSON;
+        } catch (error) {
+            console.error("Error fetching listings:", error);
+            return null;
+        }
+    }
+
+    let jsonData = getCurrentListings(); // Can this be called after the page settles?
+
+    document.addEventListener("DOMContentLoaded", function() {
+        //call function
+        let saleList = null;
+
+        try {
+            //let jsonData = await getCurrentListings();
+            
+            console.log("SaleList:", saleList);
+
+            const container = document.getElementById('purchaselist');
+            var html = '';
+
+            // Loop through the saleList and log each entry
+            saleList.forEach((entry, index) => {
+                html += createTokenHTML(entry);
+            });
+
+            container.innerHTML = html;
+        } catch (error) {
+            console.log(`Owner error: ${error}`);
+            return false;
+        }
+
+        });
+    </script>
