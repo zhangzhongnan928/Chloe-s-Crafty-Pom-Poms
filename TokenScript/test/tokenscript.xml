@@ -1,0 +1,101 @@
+<ts:token xmlns:ts="http://tokenscript.org/2022/09/tokenscript" xmlns:xml="http://www.w3.org/XML/1998/namespace" xsi:schemaLocation="http://tokenscript.org/2022/09/tokenscript https://www.tokenscript.org/schemas/2022-09/tokenscript.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ethereum="urn:ethereum:constantinople" name="Etherfantest">
+    <ts:label>
+		<ts:plurals xml:lang="en">
+			<ts:string quantity="one">PomPom Token</ts:string>
+			<ts:string quantity="other">PomPom Tokens</ts:string>
+		</ts:plurals>
+	</ts:label>
+    	<ts:meta>
+        <ts:description xml:lang="en">
+            Physical Goods Token: More inclusive, further reduces friction in trading physical goods.
+        </ts:description>
+		<ts:iconUrl xml:lang="en">https://ipfs.io/ipfs/QmWbWvbNTqe46A5GoZ3PyDWshFWD9Xe4mpk6Y1Vpso96Yv</ts:iconUrl>
+    </ts:meta>
+    <ts:contract interface="erc721" name="Token">
+        <ts:address network="11155111">0xA0343dfd68FcD7F18153b8AB87936c5A9C1Da20e</ts:address>
+    </ts:contract>
+    <ts:contract interface="erc20" name="DVP">
+        <ts:address network="11155111">0x84759f034fEa769052B19f9b5bE94678E0426107</ts:address>
+    </ts:contract>
+    <ts:origins>
+        <ts:ethereum contract="Token"/>
+    </ts:origins>
+    <ts:cards>
+        <ts:viewContent name="common" xmlns="http://www.w3.org/1999/xhtml">
+            <ts:include type="css" src="./styles.css"/>
+        </ts:viewContent>
+        <!-- Transfer NFT Card -->
+        <ts:card type="action" name="transfer" buttonClass="primary" origins="Token">
+            <ts:label>
+                <ts:string xml:lang="en">
+                    Transfer Pom Pom
+                </ts:string>
+            </ts:label>
+            <ts:transaction>
+                <ethereum:transaction contract="Token" function="transferFrom">
+                    <ts:data>
+                        <ts:address ref="ownerAddress"/>
+                        <ts:address ref="to"/>
+                        <ts:uint256 ref="tokenId"/>
+                    </ts:data>
+                </ethereum:transaction>
+            </ts:transaction>
+            <ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+                <p>Transfer your Pom Pom to another address by providing the recipient's address and the Pom Pom ID.</p>
+                <input type="text" id="to" value="Recipient Address"/>
+            </ts:view>
+        </ts:card>
+
+        <!-- Ship Product Card -->
+        <ts:card type="action" name="ship" buttonClass="primary" origins="Token">
+            <ts:label>
+                <ts:string xml:lang="en">
+                    Ship Pom Pom
+                </ts:string>
+            </ts:label>
+            <ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+                <p>Enter the physical shipping address and confirm to see the shipping cost.</p>
+                <input type="text" id="street1" value="Street Address 1"/>
+                <input type="text" id="street2" value="Street Address 2"/>
+                <input type="text" id="city" value="City"/>
+                <input type="text" id="state" value="State"/>
+                <input type="text" id="zip" value="Postal Code"/>
+                <input type="text" id="country" value="Country"/>
+                <button id="confirm-button" onclick="showShippingCost()">Confirm</button>
+                <div id="shipping-cost" style="display: none;">
+                    <p>Shipping Cost: <span id="_shippingcost">1.0</span> Token</p>
+                    <button id="pay-button" onclick="transferToken()">Pay and Ship</button>
+                </div>
+                <div id="transaction-result"></div>
+                <script type="text/javascript">
+                var __shippingCost = 0;
+                var __addressEntry = "";
+                document.addEventListener("DOMContentLoaded", function() {
+                    let __shippingCost = 1 * 10 ** 18;
+                    let st1 = document.getElementById("street1").value;
+                    let st2 = document.getElementById("street2").value;
+                    let city = document.getElementById("city").value;
+                    let state = document.getElementById("state").value;
+                    let zip = document.getElementById("zip").value;
+                    let country = document.getElementById("country").value;
+
+                    let __addressEntry = `${st1}, ${st2}, ${city}, ${state}, ${zip}, ${country}`;
+
+                    });
+                </script>
+            </ts:view>
+            
+            <ts:transaction>
+                <ethereum:transaction function="deliver" contract="DVP">
+                    <ts:data>
+                        <ts:address>0xA0343dfd68FcD7F18153b8AB87936c5A9C1Da20e</ts:address>
+                        <ts:uint256 ref="tokenId"/>
+                        <ts:string ref="__addressEntry"/>
+                        <ts:uint256 ref="__shippingCost"/>
+                    </ts:data>
+                </ethereum:transaction>
+            </ts:transaction>
+        </ts:card>
+    </ts:cards>
+    
+</ts:token>
