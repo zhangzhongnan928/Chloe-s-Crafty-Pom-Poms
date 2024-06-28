@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<h2>Confirm refund for: </h2>
+<div id="name"></div>
+<br/>
+<div id="refundamount"></div>
+<script type="text/javascript">
+    //fetch token, name and address
+    const dvpContract = '0x84759f034fEa769052B19f9b5bE94678E0426107';
+    
+    const provider = new ethers.JsonRpcProvider(rpcURL, {
+        chainId: Number(chainID),
+        name: 'sepolia'
+    });
+
+    const purchaseCaller = new ethers.Contract(dvpContract, [
+        "function _escrowEntries(bytes32 tokenData) public view returns (tuple(address,address,address,uint256,uint256,uint256,uint256,uint32))"
+    ], provider);
+
+        function getEntryHash(tokenContract, tokenId) {
+            //const address = getAddress(tokenContract);
+            const tokenIdHex = ethers.toBeHex(currentTokenInstance.tokenId, 32);
+            const encoded = ethers.concat([tokenContract, tokenIdHex]);
+            console.log("ENCODED: " + encoded);
+            const hash = ethers.keccak256(encoded);
+
+
+            // Encode the parameters using abi.encodePacked (which is equivalent to ethers.utils.defaultAbiCoder.encode in packed mode)
+            //const encoded = ethers.solidityPack(['address', 'uint256'], [tokenContract, tokenId]);
+            // Compute the keccak256 hash of the encoded data
+            //const hash = ethers.keccak256(encoded);
+            return hash;
+        }
+
+    async function getListing() {
+        try {
+            // Call the contract method
+            console.log(currentTokenInstance.tokenId);
+            //convert to hash entry
+            let entryHash = getEntryHash(currentTokenInstance.contractAddress, currentTokenInstance.tokenId);
+            console.log("Entry Hash: " + entryHash);
+
+            //const hexString = ethers.toBeHex(currentTokenInstance.tokenId, 32);
+            //console.log(hexString);
+
+            const entry = await purchaseCaller._escrowEntries(entryHash);
+            console.log("Entry: " + entry);
+
+            //need escrowValue only
+            const JSONEntry = {
+                escrowValue: ethers.formatUnits(entry[5], 18)
+            }
+
+            return JSONEntry;
+        } catch (error) {
+            console.error("Error fetching listings:", error);
+            return null;
+        }
+    }
+
+    async function getTokenName(tokenEntry) {
+        try {
+            const nameCaller = new ethers.Contract(tokenEntry.tokenContract, [
+                "function name() public view returns (string)"
+            ], provider);
+
+            const entry = await nameCaller.name();
+            console.log("Entry: " + entry);
+            return entry + " #" + tokenEntry.tokenId;
+        } catch (error) {
+            console.error("Error fetching listings:", error);
+            return null;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", async function() {
+        try {
+            // First get name from props
+            const nameContainer = document.getElementById('name');
+            nameContainer.innerHTML = currentTokenInstance.name + " #" + currentTokenInstance.tokenId;
+
+            const refundAmountContainer = document.getElementById('refundamount');
+            
+            let thisEntry = await getListing();
+            console.log("Entry: ", thisEntry);
+            
+            refundAmountContainer.innerHTML = "Amount to be refunded: $US " + thisEntry.escrowValue;
+        } catch (error) {
+            console.log(`Owner error: ${error}`);
+            return false;
+        }
+
+        });
+</script>

@@ -1,0 +1,53 @@
+<h2>List your PomPom for sale</h2> <!-- TODO: Fetch name -->
+<br></br>
+<h3>Price in $US (eg 4.2)</h3>
+<input type="text" id="price" value="" />
+<br></br>
+<h3>Expiry timestamp (Unix time seconds) (0 for no expiry)</h3>
+<div id="currentTime"></div>
+<input type="text" id="expiry" value="0" />
+<br></br>
+<h3>Or, specify offer expiry in hours</h3>
+<input type="text" id="hours" value="" />
+<script type="text/javascript">
+
+    function updateTime() {
+        const currentTimestamp = Math.floor(Date.now() / 1000);
+        document.getElementById('currentTime').innerText = "Current Time: " + currentTimestamp;
+    }
+
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    // Set default expiry time
+    web3.action.setProps({
+        expiryTime: 0
+    });
+
+    function updateSelectedPrice(event) {
+        let inputPrice = event.target.value;
+        let correctedPrice = ethers.parseUnits(inputPrice, 18);
+        web3.action.setProps({
+            tokenPrice: correctedPrice
+        });
+    }
+
+    function updateSelectedTime(event) {
+        web3.action.setProps({
+            expiryTime: event.target.value
+        });
+    }
+
+    function updateTimeExpiryHours(event) {
+        let expiryHours = event.target.value;
+        const currentTimestamp = Math.floor(Date.now() / 1000);
+        let newExpiryTimeStamp = currentTimestamp + Number(expiryHours)*60*60;
+        web3.action.setProps({
+            expiryTime: newExpiryTimeStamp
+        });
+    }
+
+    document.getElementById('price').addEventListener('input', updateSelectedPrice);
+    document.getElementById('expiry').addEventListener('input', updateSelectedTime);
+    document.getElementById('hours').addEventListener('input', updateTimeExpiryHours);
+</script>
