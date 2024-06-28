@@ -110,7 +110,7 @@ contract ShippingDvP is Ownable {
         require(expiryTime == 0 || expiryTime > uint32(block.timestamp) + SHORTEST_EXPIRY, "Expiry too soon");
 
         //Does the token already have an entry?
-        if (nftEntry.escrowValue > 0) { // already listed
+        if (nftEntry.nftPrice > 0) { // already listed
             //does this token already have a listing? IE are we changing the price?
             //If we purchased, and relisted it will need a new entry.
             if (nftEntry.nftPrice == 0) {
@@ -246,7 +246,9 @@ contract ShippingDvP is Ownable {
         _points[nftOwner] += POINTS_PURCHASER_COMPLETION;
 
         emit CompleteDelivery(nftEntry.deliverer, nftOwner, msg.sender, tokenId);
-        delete _escrowEntries[entryHash];
+        blankEscrow(entryHash);
+
+        //delete _escrowEntries[entryHash];
         delete _shippingAddresses[entryHash];
         _deliveryComplete[entryHash] = true;
         // remove from _forDelivery
@@ -254,6 +256,13 @@ contract ShippingDvP is Ownable {
 
         // - perform DVP, complete payment
         SafeERC20.safeTransferFrom(IERC20(_megabucks), address(this), nftEntry.deliverer, nftEntry.escrowValue);
+    }
+
+    function blankEscrow(bytes32 entryHash) internal {
+        _escrowEntries[entryHash].entryIndex = 0;
+        _escrowEntries[entryHash].escrowValue = 0;
+        _escrowEntries[entryHash].nftPrice = 0;
+        _escrowEntries[entryHash].deliverer = address(0);
     }
 
     //5. Handle refund of purchase, called after a burn so msg.sender will be the NFT contract
@@ -266,10 +275,10 @@ contract ShippingDvP is Ownable {
         require(nftOwner == msg.sender, "Must own NFT to get refund");
         require(nftEntry.escrowValue > 0, "Escrow already paid out");
 
-        delete _escrowEntries[entryHash]; //prevent re-entrancy
+        blankEscrow(entryHash);
 
         //send refund receipt
-        GenericNFT(_refundReceipt).safeMint(nftOwner, tokenId);
+        GenericNFT(_refundReceipt).safeMint(nftOwner, uint256(entryHash));
 
         //Burn NFT
         GenericNFT(tokenContract).dvpBurn(tokenId);
@@ -341,19 +350,18 @@ contract ShippingDvP is Ownable {
     }
 
     // Helper function for filter: can the NFT ship feature be used?
-    function canShip(address tokenContract, uint256 tokenId) public view returns (bool) {
-        bytes32 entryHash = getEntryHash(tokenContract, tokenId);
-        NFTEntry memory nftEntry = _escrowEntries[entryHash];
-
-        return (nftEntry.escrowValue > 0 && nftEntry.nftPrice == UINT256_MAX);
-    }
-
-    // Helper function for filter: can the NFT be refunded?
-    function canRefund(address tokenContract, uint256 tokenId) public view returns (bool) {
+    function canShipOrRefund(address tokenContract, uint256 tokenId) public view returns (bool) {
         bytes32 entryHash = getEntryHash(tokenContract, tokenId);
         NFTEntry memory nftEntry = _escrowEntries[entryHash];
 
         return (nftEntry.escrowValue > 0 && nftEntry.nftPrice == 0);
+    }
+
+    function getTokenDetails(uint256 entryHashUint) public view returns (address contractAddress, uint256 tokenId) {
+        bytes32 entryHash = bytes32(entryHashUint);
+        NFTEntry memory nftEntry = _escrowEntries[entryHash];
+        contractAddress = nftEntry.tokenContract;
+        tokenId = nftEntry.tokenId;
     }
 
     //Should this service have a facility to return fees by the owner?

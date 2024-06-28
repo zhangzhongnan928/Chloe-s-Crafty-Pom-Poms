@@ -11,12 +11,12 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import 'stl-contracts/royalty/DerivedERC2981Royalty.sol';
 import { ERC5169 } from "stl-contracts/ERC/ERC5169.sol";
 
-contract PomPoms is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable, Ownable, ERC5169, DerivedERC2981Royalty {
+contract PomPoms is ERC721, ERC721Enumerable, ERC721Burnable, Ownable, ERC5169, DerivedERC2981Royalty {
     uint256 private _nextTokenId;
     address private _royaltyRecipient;
     address private _dvpContract;
 
-    mapping (uint256 => uint256) private _nftPrices;
+    mapping (uint256 => uint8) private _shippingStatus;
 
     constructor(address dvpContract)
         ERC721("Chloes Crafty Pom Poms", "CCPP")
@@ -27,14 +27,20 @@ contract PomPoms is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable, 
         _dvpContract = dvpContract;
 
         //mint token0 to owner
-        safeMint(10000, "");
+        safeMint();
     }
 
-    function safeMint(uint256 nftPrice, string memory uri) public onlyOwner {
+    function setDVP(address dvpContract) public onlyOwner {
+        _dvpContract = dvpContract;
+    }
+
+    function safeMint() public onlyOwner {
         uint256 tokenId = _nextTokenId++;
         _safeMint(msg.sender, tokenId);
-        _setTokenURI(tokenId, uri);
-        _nftPrices[tokenId] = nftPrice;
+    }
+
+    function setShippingStatus(uint256 tokenId, uint8 status) public onlyOwner {
+        _shippingStatus[tokenId] = status;
     }
 
     function royaltyInfo(
@@ -86,25 +92,23 @@ contract PomPoms is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable, 
         super._increaseBalance(account, value);
     }
 
-    function tokenURI(uint256 tokenId)
-        public
-        view
-        override(ERC721, ERC721URIStorage)
-        returns (string memory)
-    {
-        return super.tokenURI(tokenId);
+    function tokenURI(uint256 id) public view override returns (string memory) {
+            string memory name = name();
+            return string(abi.encodePacked('{"name": "', name, ' #', Strings.toString(id),
+                    '","description":"Physical Goods Token: More inclusive, further reduces friction in trading physical goods.', 
+                    '","external_url":"https://www.smartlayer.network","image":"https://ipfs.io/ipfs/QmUfdWNZm4FoVrVboUiubJJh4QLKmSHEx9o3gJWFrfSxeL"',  
+                    ',"attributes":[]}'));
     }
 
     function _authorizeSetScripts(string[] memory) internal view override(ERC5169) {
 		require(msg.sender == owner(), "You do not have the authority to set the script URI");
 	}
 
-    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, ERC721Enumerable, ERC721URIStorage, ERC5169, DerivedERC2981Royalty) returns (bool) {
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, ERC721Enumerable, ERC5169, DerivedERC2981Royalty) returns (bool) {
         return
             ERC5169.supportsInterface(interfaceId) ||
             ERC721Enumerable.supportsInterface(interfaceId) ||
             ERC721.supportsInterface(interfaceId) ||
-            DerivedERC2981Royalty.supportsInterface(interfaceId) ||
-            ERC721URIStorage.supportsInterface(interfaceId);
+            DerivedERC2981Royalty.supportsInterface(interfaceId);
     }
 }
