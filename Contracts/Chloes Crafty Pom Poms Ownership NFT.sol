@@ -25,6 +25,9 @@ contract PomPoms is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable, 
         _setRoyalty(10 * 100); // 10% royalty fee 
         _royaltyRecipient = msg.sender;
         _dvpContract = dvpContract;
+
+        //mint token0 to owner
+        safeMint(10000, "");
     }
 
     function safeMint(uint256 nftPrice, string memory uri) public onlyOwner {

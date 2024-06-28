@@ -8,12 +8,12 @@
 <input type="text" id="country" value="Country" />
 </br><button id="confirm-button" onclick="showShippingCost()">Confirm</button>
 <div id="shipping-cost" style="display: none;">
-    <p>Shipping Cost: <span id="_shippingcost">1.0</span> $MB</p>
+    <p>Shipping Cost: <span id="_shippingcost">1.0</span> $USD</p>
 </div>
 <div id="transaction-result"></div>
 <script type="text/javascript">
     function showShippingCost() {
-            const countryCode = document.getElementById('country').value.toUpperCase();
+            let countryCode = document.getElementById('country').value.toUpperCase().slice(0, 3);
             let cost = 5;
             const shippingCosts = {
                 'USA': 1,

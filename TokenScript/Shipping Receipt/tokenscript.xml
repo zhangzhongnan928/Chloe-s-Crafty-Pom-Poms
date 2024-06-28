@@ -21,7 +21,7 @@
         <ts:address network="11155111">0x1E515D259Db1d6F6b48241b3Eb3B139d602197cA</ts:address>
     </ts:contract>
     <ts:contract name="DVP">
-        <ts:address network="11155111">0x84759f034fEa769052B19f9b5bE94678E0426107</ts:address>
+        <ts:address network="11155111">0xc5D09b165A201113E2f998562C724F2807A27DFe</ts:address>
     </ts:contract>
     <ts:origins>
         <ts:ethereum contract="Token"/>

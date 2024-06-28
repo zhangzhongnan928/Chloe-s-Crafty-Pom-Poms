@@ -52,8 +52,8 @@
         `;
     }
 
-    const dvpContract = '0x84759f034fEa769052B19f9b5bE94678E0426107';
-    const ERC20Currency = '0xFe9a82f8192c9dF41cBb7cAdD00e4dBF9c87Fb69';
+    const dvpContract = '0xc5D09b165A201113E2f998562C724F2807A27DFe';
+    const ERC20Currency = '0xe5A158a5263e02937010DA8FaBBA3c37554d6fAe';
     
     const provider = new ethers.JsonRpcProvider(rpcURL, {
         chainId: Number(chainID),
@@ -69,8 +69,6 @@
             const balanceCaller = new ethers.Contract(ERC20Currency, [
                 "function balanceOf(address wallet) public view returns (uint256)"
             ], provider);
-            console.log("Full: " + JSON.stringify(currentTokenInstance));
-
             const entry = await balanceCaller.balanceOf(currentTokenInstance.ownerAddress);
             //correct to human readable
             return ethers.formatUnits(entry, 18);
@@ -92,7 +90,7 @@
                 seller: entry[1],
                 tokenContract: entry[2],
                 tokenId: entry[3].toString(), 
-                nftPrice: ethers.formatUnits(entry[4], 18) + " $MB",
+                nftPrice: ethers.formatUnits(entry[4], 18) + " $USD",
                 escrowValue: entry[5].toString(),
                 entryIndex: entry[6].toString(), 
                 expiryBlockTime: entry[7].toString() 

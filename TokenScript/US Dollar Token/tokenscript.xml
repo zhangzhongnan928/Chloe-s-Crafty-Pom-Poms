@@ -19,7 +19,7 @@
 		<ts:iconUrl xml:lang="en">https://ipfs.io/ipfs/Qmaq1c14o5D4JS1TWJTPsUvD3r8KgL7yA35NDuBKp3DjwH</ts:iconUrl>
     </ts:meta>
     <ts:contract interface="erc20" name="Token">
-        <ts:address network="11155111">0xFe9a82f8192c9dF41cBb7cAdD00e4dBF9c87Fb69</ts:address>
+        <ts:address network="11155111">0xe5A158a5263e02937010DA8FaBBA3c37554d6fAe</ts:address>
     </ts:contract>
     <ts:origins>
         <ts:ethereum contract="Token"/>
@@ -43,7 +43,6 @@
 			<ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 				<ts:include type="html" src="./purchase.html" />
             </ts:view>
-            
         </ts:card>
 
     </ts:cards>
@@ -52,7 +51,6 @@
 		<ts:type><ts:syntax>1.3.6.1.4.1.1466.115.121.1.27</ts:syntax></ts:type>
 		<ts:origins>
             <ts:user-entry as="e18"/>
-			<!--<ts:user-entry as="uint" />-->
 		</ts:origins>
 	</ts:attribute>
 </ts:token>
