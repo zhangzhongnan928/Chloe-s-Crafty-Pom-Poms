@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<h2>Choose amount of USD to purchase.</h2>
+<h3>Exchange rate is 1M $USD to 1 Sepolia ETH</h3>
+<input type="text" id="amountToBuy" />
+<br />
+<div id="costInSepEth"></div>
+<br />
+<div id="availableBalance"></div>
+<script type="text/javascript">
+
+    function updatePurchaseAmount(event) {
+        let inputAmount = Number(event.target.value);
+        let amountInEth = inputAmount / 1000000;
+        web3.action.setProps({
+			purchaseAmount: amountInEth
+		});
+    }
+
+    const provider = new ethers.JsonRpcProvider(rpcURL, {
+        chainId: Number(chainID),
+        name: 'sepolia'
+    });
+
+    async function getUSDBalance() {
+        try {
+            const balanceCaller = new ethers.Contract(currentTokenInstance.contractAddress, [
+                "function balanceOf(address wallet) public view returns (uint256)"
+            ], provider);
+
+            const entry = await balanceCaller.balanceOf(currentTokenInstance.ownerAddress);
+            //correct to human readable
+            return ethers.formatUnits(entry, 18);
+        } catch (error) {
+            console.error("Error fetching listings:", error);
+            return null;
+        }
+    }
+
+    async function updateUSDBalance() {
+        let balance = await getUSDBalance();
+        const container = document.getElementById('availableBalance');
+        container.innerHTML = "Available Balance: " + balance + " $USD";
+    }
+
+    function updateSelectedAmount(event) {
+        let amountInput = event.target.value;
+        let amountToSpend = amountInput / 1000000;
+
+        const container = document.getElementById('costInSepEth');
+        container.innerHTML = "Amount in Sepolia: " + amountToSpend + " ETH";
+
+        web3.action.setProps({
+            purchaseAmount: amountToSpend
+        });
+    }
+
+    document.getElementById('amountToBuy').addEventListener('input', updatePurchaseAmount);
+
+    document.addEventListener("DOMContentLoaded", async function () {
+        //call function
+        let saleList = null;
+
+        try {
+            await updateUSDBalance();
+        } catch (error) {
+            console.log(`Owner error: ${error}`);
+            return false;
+        }
+
+    });
+</script>
