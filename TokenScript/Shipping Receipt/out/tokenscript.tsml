@@ -9,13 +9,13 @@
         <ts:description xml:lang="en">
             Goods have been shipped to you, use this receipt to confirm shipment.
         </ts:description>
-		<ts:iconUrl xml:lang="en">https://ipfs.io/ipfs/QmWbWvbNTqe46A5GoZ3PyDWshFWD9Xe4mpk6Y1Vpso96Yv</ts:iconUrl>
+		<ts:iconUrl xml:lang="en">https://raw.githubusercontent.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/8dfb9e833d33e1cb7e9b784e8095798932f54480/Metadata/Shipping%20Receipt%20NFT.jpeg</ts:iconUrl>
     </ts:meta>
     <ts:contract interface="erc721" name="Token">
-        <ts:address network="11155111">0x1E515D259Db1d6F6b48241b3Eb3B139d602197cA</ts:address>
+        <ts:address network="84532">0x5e426CB6446BA6387760F078eeeEf01c0C823168</ts:address>
     </ts:contract>
     <ts:contract name="DVP">
-        <ts:address network="11155111">0x84759f034fEa769052B19f9b5bE94678E0426107</ts:address>
+        <ts:address network="84532">0x3BD455f7DD0528De62a233D2aC4a070E4Bc7641d</ts:address>
     </ts:contract>
     <ts:origins>
         <ts:ethereum contract="Token"/>
@@ -45,7 +45,7 @@
 <script type="text/javascript">//&lt;![CDATA[
 
     //fetch token, name and address
-    const dvpContract = '0x84759f034fEa769052B19f9b5bE94678E0426107';
+    const dvpContract = '0x3BD455f7DD0528De62a233D2aC4a070E4Bc7641d';
     
     const provider = new ethers.JsonRpcProvider(rpcURL, {
         chainId: Number(chainID),
@@ -72,7 +72,6 @@
                 tokenId: entry[3].toString()
             }
 
-            // Return the JSON object
             return JSONEntry;
         } catch (error) {
             console.error("Error fetching listings:", error);
@@ -88,7 +87,6 @@
 
             const entry = await nameCaller.name();
             console.log("Entry: " + entry);
-            // Return the JSON object
             return entry + " #" + tokenEntry.tokenId;
         } catch (error) {
             console.error("Error fetching listings:", error);
@@ -97,19 +95,12 @@
     }
 
     document.addEventListener("DOMContentLoaded", async function() {
-        //call function
-
         try {
             let thisEntry = await getListing();
-            
             console.log("Entry: ", thisEntry);
-
             let name = await getTokenName(thisEntry);
-
             const nameContainer = document.getElementById('name');
-
             nameContainer.innerHTML = name;
-
         } catch (error) {
             console.log(`Owner error: ${error}`);
             return false;

@@ -15,13 +15,13 @@
         <ts:description xml:lang="en">
             Goods have been shipped to you, use this receipt to confirm shipment.
         </ts:description>
-		<ts:iconUrl xml:lang="en">https://ipfs.io/ipfs/QmWbWvbNTqe46A5GoZ3PyDWshFWD9Xe4mpk6Y1Vpso96Yv</ts:iconUrl>
+		<ts:iconUrl xml:lang="en">https://raw.githubusercontent.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/8dfb9e833d33e1cb7e9b784e8095798932f54480/Metadata/Shipping%20Receipt%20NFT.jpeg</ts:iconUrl>
     </ts:meta>
     <ts:contract interface="erc721" name="Token">
-        <ts:address network="11155111">0x1E515D259Db1d6F6b48241b3Eb3B139d602197cA</ts:address>
+        <ts:address network="84532">0x5e426CB6446BA6387760F078eeeEf01c0C823168</ts:address>
     </ts:contract>
     <ts:contract name="DVP">
-        <ts:address network="11155111">0xc5D09b165A201113E2f998562C724F2807A27DFe</ts:address>
+        <ts:address network="84532">0x3BD455f7DD0528De62a233D2aC4a070E4Bc7641d</ts:address>
     </ts:contract>
     <ts:origins>
         <ts:ethereum contract="Token"/>

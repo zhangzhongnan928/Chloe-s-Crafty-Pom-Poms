@@ -15,13 +15,13 @@
         <ts:description xml:lang="en">
             Physical Goods Token: More inclusive, further reduces friction in trading physical goods.
         </ts:description>
-		<ts:iconUrl xml:lang="en">https://ipfs.io/ipfs/QmWbWvbNTqe46A5GoZ3PyDWshFWD9Xe4mpk6Y1Vpso96Yv</ts:iconUrl>
+		<ts:iconUrl xml:lang="en">https://raw.githubusercontent.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/main/Metadata/Chloe%E2%80%99s%20Crafty%20Pom%20Poms%20Ownership%20NFT.jpg</ts:iconUrl>
     </ts:meta>
     <ts:contract interface="erc721" name="Token">
-        <ts:address network="11155111">0x63ca42a324D42489FD78510616818b7DeF656e04</ts:address>
+        <ts:address network="84532">0xBE59BD577E81CEe171ab08d803a80Ed45Cd0Faed</ts:address>
     </ts:contract>
     <ts:contract name="DVP">
-        <ts:address network="11155111">0xc5D09b165A201113E2f998562C724F2807A27DFe</ts:address>
+        <ts:address network="84532">0x3BD455f7DD0528De62a233D2aC4a070E4Bc7641d</ts:address>
         <ts:abi>
 			<![CDATA[
 			[
@@ -52,6 +52,21 @@
     <ts:origins>
         <ts:ethereum contract="Token"/>
     </ts:origins>
+    <ts:selection filter="isOwner=FALSE" name="cannotMint">
+		<ts:label>
+			<ts:string xml:lang="en">Not Owner</ts:string>
+		</ts:label>
+	</ts:selection>
+    <ts:selection filter="canShipOrRefund=FALSE" name="cannotShip">
+		<ts:label>
+			<ts:string xml:lang="en">Cannot Ship</ts:string>
+		</ts:label>
+	</ts:selection>
+    <ts:selection filter="canShipOrRefund=FALSE" name="cannotRefund">
+		<ts:label>
+			<ts:string xml:lang="en">Cannot refund</ts:string>
+		</ts:label>
+	</ts:selection>
 	<ts:cards>
 		<!-- Transfer NFT Card -->
         <ts:card type="action" name="transfer" buttonClass="primary" origins="Token">
@@ -75,7 +90,7 @@
             </ts:view>
         </ts:card>
 
-        <ts:card type="action" name="ship" buttonClass="primary" origins="Token">
+        <ts:card exclude="cannotShip" type="action" name="ship" buttonClass="primary" origins="Token">
             <ts:label>
                 <ts:string xml:lang="en">
                     Ship Pom Pom
@@ -85,7 +100,7 @@
             <ts:transaction>
                 <ethereum:transaction contract="DVP" function="deliver" >
                     <ts:data>
-                        <ts:address>0x63ca42a324D42489FD78510616818b7DeF656e04</ts:address>
+                        <ts:address>0xBE59BD577E81CEe171ab08d803a80Ed45Cd0Faed</ts:address>
                         <ts:uint256 ref="tokenId"/>
                         <ts:string ref="addressEntry"/>
                         <ts:uint256 ref="shippingCost"/>
@@ -98,15 +113,13 @@
             
         </ts:card>
 
-        <ts:card type="action" name="mint" buttonClass="primary" origins="Token">
+        <ts:card exclude="cannotMint" type="action" name="mint" buttonClass="primary" origins="Token">
         <ts:label>
             <ts:string xml:lang="en">Mint</ts:string>
         </ts:label>
         <ts:transaction>
                 <ethereum:transaction contract="Token" function="safeMint">
                     <ts:data>
-                        <ts:uint256>10000</ts:uint256>
-                        <ts:string> </ts:string>
                     </ts:data>
                 </ethereum:transaction>
             </ts:transaction>
@@ -122,7 +135,7 @@
             <ts:transaction>
                 <ethereum:transaction contract="DVP" function="listToDVP" >
                     <ts:data>
-                        <ts:address>0x63ca42a324D42489FD78510616818b7DeF656e04</ts:address>
+                        <ts:address>0xBE59BD577E81CEe171ab08d803a80Ed45Cd0Faed</ts:address>
                         <ts:uint256 ref="tokenId"/>
                         <ts:uint256 ref="tokenPrice"/>
                         <ts:uint32 ref="expiryTime"/>
@@ -135,7 +148,7 @@
             
         </ts:card>
 
-        <ts:card type="action" name="refund" buttonClass="primary" origins="Token">
+        <ts:card exclude="cannotRefund" type="action" name="refund" buttonClass="primary" origins="Token">
             <ts:label>
                 <ts:string xml:lang="en">
                     Refund Pom Pom
@@ -144,7 +157,7 @@
             <ts:transaction>
                 <ethereum:transaction function="refund" contract="DVP">
                     <ts:data>
-                        <ts:address>0x63ca42a324D42489FD78510616818b7DeF656e04</ts:address>
+                        <ts:address>0xBE59BD577E81CEe171ab08d803a80Ed45Cd0Faed</ts:address>
                         <ts:uint256 ref="tokenId"/>
                     </ts:data>
                 </ethereum:transaction>
@@ -164,7 +177,7 @@
             <ts:transaction>
                 <ethereum:transaction contract="DVP" function="purchaseNFT" >
                     <ts:data>
-                        <ts:address>0x63ca42a324D42489FD78510616818b7DeF656e04</ts:address>
+                        <ts:address>0xBE59BD577E81CEe171ab08d803a80Ed45Cd0Faed</ts:address>
                         <ts:uint256 ref="purchaseTokenId"/>
                     </ts:data>
                 </ethereum:transaction>
@@ -211,5 +224,29 @@
 			<ts:user-entry as="uint" />
 		</ts:origins>
 	</ts:attribute>   
+
+    <ts:attribute name="isOwner">
+		<ts:type><ts:syntax>1.3.6.1.4.1.1466.115.121.1.7</ts:syntax></ts:type>
+		<ts:origins>
+			<ethereum:call as="bool" contract="DVP" function="isOwner">
+				<ts:data>
+                    <ts:address>0xBE59BD577E81CEe171ab08d803a80Ed45Cd0Faed</ts:address>
+					<ts:address ref="ownerAddress"/>
+				</ts:data>
+			</ethereum:call>
+		</ts:origins>
+	</ts:attribute>
+
+    <ts:attribute name="canShipOrRefund">
+		<ts:type><ts:syntax>1.3.6.1.4.1.1466.115.121.1.7</ts:syntax></ts:type>
+		<ts:origins>
+			<ethereum:call as="bool" contract="DVP" function="canShipOrRefund">
+				<ts:data>
+					<ts:address>0xBE59BD577E81CEe171ab08d803a80Ed45Cd0Faed</ts:address>
+					<ts:uint256 ref="tokenId"/>
+				</ts:data>
+			</ethereum:call>
+		</ts:origins>
+	</ts:attribute>
 
 </ts:token>

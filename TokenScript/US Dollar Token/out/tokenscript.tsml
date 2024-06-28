@@ -1,4 +1,4 @@
-<ts:token xmlns:ethereum="urn:ethereum:constantinople" xmlns:ts="http://tokenscript.org/2024/01/tokenscript" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Shipping-Receipt" xsi:schemaLocation="http://tokenscript.org/2024/01/tokenscript https://www.tokenscript.org/schemas/2024-01/tokenscript.xsd">
+<ts:token xmlns:ethereum="urn:ethereum:constantinople" xmlns:ts="http://tokenscript.org/2024/01/tokenscript" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="USD-Stable" xsi:schemaLocation="http://tokenscript.org/2024/01/tokenscript https://www.tokenscript.org/schemas/2024-01/tokenscript.xsd">
 	<ts:label>
 		<ts:plurals xml:lang="en">
 			<ts:string quantity="one">USD Stablecoin</ts:string>
@@ -13,7 +13,7 @@
 		<ts:iconUrl xml:lang="en">https://ipfs.io/ipfs/Qmaq1c14o5D4JS1TWJTPsUvD3r8KgL7yA35NDuBKp3DjwH</ts:iconUrl>
     </ts:meta>
     <ts:contract interface="erc20" name="Token">
-        <ts:address network="11155111">0xe5A158a5263e02937010DA8FaBBA3c37554d6fAe</ts:address>
+        <ts:address network="84532">0x8B0FEFd94667FdD8cEf52f8C1EeB5bAEc8d64a00</ts:address>
     </ts:contract>
     <ts:origins>
         <ts:ethereum contract="Token"/>

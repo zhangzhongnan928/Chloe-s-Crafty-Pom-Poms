@@ -11,6 +11,13 @@
     <p>Shipping Cost: <span id="_shippingcost">1.0</span> $USD</p>
 </div>
 <div id="transaction-result"></div>
+<br/>
+<div id="shipping-link" style="display: none;">
+    Check this link for Shipping Receipt: 
+    <a href="https://viewer-staging.tokenscript.org/?chain=84532&contract=0x5e426CB6446BA6387760F078eeeEf01c0C823168" target="_blank">
+      Link to Shipping Receipt
+    </a>
+</div>
 <script type="text/javascript">
     function showShippingCost() {
             let countryCode = document.getElementById('country').value.toUpperCase().slice(0, 3);
@@ -37,6 +44,7 @@
 
             document.getElementById('_shippingcost').innerHTML = cost;
             document.getElementById('shipping-cost').style.display = 'block';
+            document.getElementById('shipping-link').style.display = 'block';
 
             let _addressEntry = getAddress();
             let _shippingCost = ethers.parseUnits(cost.toString(), 18);

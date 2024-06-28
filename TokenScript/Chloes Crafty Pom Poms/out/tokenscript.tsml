@@ -9,13 +9,13 @@
         <ts:description xml:lang="en">
             Physical Goods Token: More inclusive, further reduces friction in trading physical goods.
         </ts:description>
-		<ts:iconUrl xml:lang="en">https://ipfs.io/ipfs/QmWbWvbNTqe46A5GoZ3PyDWshFWD9Xe4mpk6Y1Vpso96Yv</ts:iconUrl>
+		<ts:iconUrl xml:lang="en">https://raw.githubusercontent.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/main/Metadata/Chloe%E2%80%99s%20Crafty%20Pom%20Poms%20Ownership%20NFT.jpg</ts:iconUrl>
     </ts:meta>
     <ts:contract interface="erc721" name="Token">
-        <ts:address network="11155111">0x63ca42a324D42489FD78510616818b7DeF656e04</ts:address>
+        <ts:address network="84532">0xBE59BD577E81CEe171ab08d803a80Ed45Cd0Faed</ts:address>
     </ts:contract>
     <ts:contract name="DVP">
-        <ts:address network="11155111">0xc5D09b165A201113E2f998562C724F2807A27DFe</ts:address>
+        <ts:address network="84532">0x3BD455f7DD0528De62a233D2aC4a070E4Bc7641d</ts:address>
         <ts:abi>
 			
 			[
@@ -46,6 +46,21 @@
     <ts:origins>
         <ts:ethereum contract="Token"/>
     </ts:origins>
+    <ts:selection filter="isOwner=FALSE" name="cannotMint">
+		<ts:label>
+			<ts:string xml:lang="en">Not Owner</ts:string>
+		</ts:label>
+	</ts:selection>
+    <ts:selection filter="canShipOrRefund=FALSE" name="cannotShip">
+		<ts:label>
+			<ts:string xml:lang="en">Cannot Ship</ts:string>
+		</ts:label>
+	</ts:selection>
+    <ts:selection filter="canShipOrRefund=FALSE" name="cannotRefund">
+		<ts:label>
+			<ts:string xml:lang="en">Cannot refund</ts:string>
+		</ts:label>
+	</ts:selection>
 	<ts:cards>
 		
         <ts:card buttonClass="primary" name="transfer" origins="Token" type="action">
@@ -69,7 +84,7 @@
             </ts:view>
         </ts:card>
 
-        <ts:card buttonClass="primary" name="ship" origins="Token" type="action">
+        <ts:card buttonClass="primary" exclude="cannotShip" name="ship" origins="Token" type="action">
             <ts:label>
                 <ts:string xml:lang="en">
                     Ship Pom Pom
@@ -79,7 +94,7 @@
             <ts:transaction>
                 <ethereum:transaction contract="DVP" function="deliver">
                     <ts:data>
-                        <ts:address>0x63ca42a324D42489FD78510616818b7DeF656e04</ts:address>
+                        <ts:address>0xBE59BD577E81CEe171ab08d803a80Ed45Cd0Faed</ts:address>
                         <ts:uint256 ref="tokenId"/>
                         <ts:string ref="addressEntry"/>
                         <ts:uint256 ref="shippingCost"/>
@@ -100,6 +115,13 @@
     <p>Shipping Cost: <span id="_shippingcost">1.0</span> $USD</p>
 </div>
 <div id="transaction-result"></div>
+<br/>
+<div id="shipping-link" style="display: none;">
+    Check this link for Shipping Receipt: 
+    <a href="https://viewer-staging.tokenscript.org/?chain=84532&amp;contract=0x5e426CB6446BA6387760F078eeeEf01c0C823168" target="_blank">
+      Link to Shipping Receipt
+    </a>
+</div>
 <script type="text/javascript">//&lt;![CDATA[
 
     function showShippingCost() {
@@ -127,6 +149,7 @@
 
             document.getElementById('_shippingcost').innerHTML = cost;
             document.getElementById('shipping-cost').style.display = 'block';
+            document.getElementById('shipping-link').style.display = 'block';
 
             let _addressEntry = getAddress();
             let _shippingCost = ethers.parseUnits(cost.toString(), 18);
@@ -153,15 +176,13 @@
             
         </ts:card>
 
-        <ts:card buttonClass="primary" name="mint" origins="Token" type="action">
+        <ts:card buttonClass="primary" exclude="cannotMint" name="mint" origins="Token" type="action">
         <ts:label>
             <ts:string xml:lang="en">Mint</ts:string>
         </ts:label>
         <ts:transaction>
                 <ethereum:transaction contract="Token" function="safeMint">
                     <ts:data>
-                        <ts:uint256>10000</ts:uint256>
-                        <ts:string> </ts:string>
                     </ts:data>
                 </ethereum:transaction>
             </ts:transaction>
@@ -177,7 +198,7 @@
             <ts:transaction>
                 <ethereum:transaction contract="DVP" function="listToDVP">
                     <ts:data>
-                        <ts:address>0x63ca42a324D42489FD78510616818b7DeF656e04</ts:address>
+                        <ts:address>0xBE59BD577E81CEe171ab08d803a80Ed45Cd0Faed</ts:address>
                         <ts:uint256 ref="tokenId"/>
                         <ts:uint256 ref="tokenPrice"/>
                         <ts:uint32 ref="expiryTime"/>
@@ -246,7 +267,7 @@
             
         </ts:card>
 
-        <ts:card buttonClass="primary" name="refund" origins="Token" type="action">
+        <ts:card buttonClass="primary" exclude="cannotRefund" name="refund" origins="Token" type="action">
             <ts:label>
                 <ts:string xml:lang="en">
                     Refund Pom Pom
@@ -255,7 +276,7 @@
             <ts:transaction>
                 <ethereum:transaction contract="DVP" function="refund">
                     <ts:data>
-                        <ts:address>0x63ca42a324D42489FD78510616818b7DeF656e04</ts:address>
+                        <ts:address>0xBE59BD577E81CEe171ab08d803a80Ed45Cd0Faed</ts:address>
                         <ts:uint256 ref="tokenId"/>
                     </ts:data>
                 </ethereum:transaction>
@@ -266,10 +287,17 @@
 <div id="name"></div>
 <br/>
 <div id="refundamount"></div>
+<br/>
+<div id="shipping-link">
+    Check this link for Refund Receipt:
+    <a href="https://viewer-staging.tokenscript.org/?chain=84532&amp;contract=0x7471366d5b567e5045BE1d344A4434E08028DB74" target="_blank">
+      Link to Refund Receipt
+    </a>
+</div>
 <script type="text/javascript">//&lt;![CDATA[
 
     //fetch token, name and address
-    const dvpContract = '0xc5D09b165A201113E2f998562C724F2807A27DFe';
+    const dvpContract = '0x3BD455f7DD0528De62a233D2aC4a070E4Bc7641d';
     
     const provider = new ethers.JsonRpcProvider(rpcURL, {
         chainId: Number(chainID),
@@ -281,17 +309,10 @@
     ], provider);
 
         function getEntryHash(tokenContract, tokenId) {
-            //const address = getAddress(tokenContract);
             const tokenIdHex = ethers.toBeHex(currentTokenInstance.tokenId, 32);
             const encoded = ethers.concat([tokenContract, tokenIdHex]);
             console.log("ENCODED: " + encoded);
             const hash = ethers.keccak256(encoded);
-
-
-            // Encode the parameters using abi.encodePacked (which is equivalent to ethers.utils.defaultAbiCoder.encode in packed mode)
-            //const encoded = ethers.solidityPack(['address', 'uint256'], [tokenContract, tokenId]);
-            // Compute the keccak256 hash of the encoded data
-            //const hash = ethers.keccak256(encoded);
             return hash;
         }
 
@@ -303,14 +324,13 @@
             let entryHash = getEntryHash(currentTokenInstance.contractAddress, currentTokenInstance.tokenId);
             console.log("Entry Hash: " + entryHash);
 
-            //const hexString = ethers.toBeHex(currentTokenInstance.tokenId, 32);
-            //console.log(hexString);
-
             const entry = await purchaseCaller._escrowEntries(entryHash);
             console.log("Entry: " + entry);
 
             //need escrowValue only
             const JSONEntry = {
+                tokenContract: entry[2],
+                tokenId: entry[3].toString(),
                 escrowValue: ethers.formatUnits(entry[5], 18)
             }
 
@@ -340,14 +360,14 @@
         try {
             // First get name from props
             const nameContainer = document.getElementById('name');
-            nameContainer.innerHTML = currentTokenInstance.name + " #" + currentTokenInstance.tokenId;
 
             const refundAmountContainer = document.getElementById('refundamount');
             
             let thisEntry = await getListing();
-            console.log("Entry: ", thisEntry);
+            let nameEntry = await getTokenName(thisEntry);
             
             refundAmountContainer.innerHTML = "Amount to be refunded: $US " + thisEntry.escrowValue;
+            nameContainer.innerHTML = nameEntry;
         } catch (error) {
             console.log(`Owner error: ${error}`);
             return false;
@@ -368,7 +388,7 @@
             <ts:transaction>
                 <ethereum:transaction contract="DVP" function="purchaseNFT">
                     <ts:data>
-                        <ts:address>0x63ca42a324D42489FD78510616818b7DeF656e04</ts:address>
+                        <ts:address>0xBE59BD577E81CEe171ab08d803a80Ed45Cd0Faed</ts:address>
                         <ts:uint256 ref="purchaseTokenId"/>
                     </ts:data>
                 </ethereum:transaction>
@@ -432,12 +452,12 @@
         `;
     }
 
-    const dvpContract = '0xc5D09b165A201113E2f998562C724F2807A27DFe';
-    const ERC20Currency = '0xe5A158a5263e02937010DA8FaBBA3c37554d6fAe';
+    const dvpContract = '0x3BD455f7DD0528De62a233D2aC4a070E4Bc7641d';
+    const ERC20Currency = '0x8B0FEFd94667FdD8cEf52f8C1EeB5bAEc8d64a00';
     
     const provider = new ethers.JsonRpcProvider(rpcURL, {
         chainId: Number(chainID),
-        name: 'sepolia'
+        name: 'base sepolia'
     });
 
     const purchaseCaller = new ethers.Contract(dvpContract, [
@@ -564,5 +584,29 @@
 			<ts:user-entry as="uint"/>
 		</ts:origins>
 	</ts:attribute>   
+
+    <ts:attribute name="isOwner">
+		<ts:type><ts:syntax>1.3.6.1.4.1.1466.115.121.1.7</ts:syntax></ts:type>
+		<ts:origins>
+			<ethereum:call as="bool" contract="DVP" function="isOwner">
+				<ts:data>
+                    <ts:address>0xBE59BD577E81CEe171ab08d803a80Ed45Cd0Faed</ts:address>
+					<ts:address ref="ownerAddress"/>
+				</ts:data>
+			</ethereum:call>
+		</ts:origins>
+	</ts:attribute>
+
+    <ts:attribute name="canShipOrRefund">
+		<ts:type><ts:syntax>1.3.6.1.4.1.1466.115.121.1.7</ts:syntax></ts:type>
+		<ts:origins>
+			<ethereum:call as="bool" contract="DVP" function="canShipOrRefund">
+				<ts:data>
+					<ts:address>0xBE59BD577E81CEe171ab08d803a80Ed45Cd0Faed</ts:address>
+					<ts:uint256 ref="tokenId"/>
+				</ts:data>
+			</ethereum:call>
+		</ts:origins>
+	</ts:attribute>
 
 </ts:token>
