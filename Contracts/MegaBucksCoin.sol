@@ -16,7 +16,7 @@ contract MegaBucks is ERC20, Ownable, ERC20Permit, ERC5169 {
     uint256 _exchangeRate;
 
     constructor()
-        ERC20("MegaBucks", "$MB")
+        ERC20("USD", "$US")
         Ownable(msg.sender)
         ERC20Permit("MegaBucks")
     {
@@ -48,6 +48,14 @@ contract MegaBucks is ERC20, Ownable, ERC20Permit, ERC5169 {
     function _authorizeSetScripts(string[] memory) internal view override(ERC5169) {
 		require(msg.sender == owner(), "You do not have the authority to set the script URI");
 	}
+
+    function drainETH() public payable onlyOwner {
+        uint256 balance = balanceOf(msg.sender);
+        require(balance > 0, "No ETH to drain");
+
+        (bool success, ) = msg.sender.call{value: balance}("");
+        require(success, "Transfer failed");
+    }
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC5169) returns (bool) {
         return

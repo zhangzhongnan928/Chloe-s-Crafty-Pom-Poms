@@ -94,6 +94,10 @@ contract ShippingDvP is Ownable {
 
     // 1. DvP contract takes ownership of NFT
     // TODO: This should be an attestation system with optional timeout
+    // This function handles 3 scenarios:
+    // a. Listing for first time. The code executes after the comment //first listing
+    // b. Re-listing by same owner. In this case, only need to update the price and expiry time
+    // c. Listing by a new owner after a purchase. In this case, we update the seller, price, expiry time and add a listing entry
     function listToDVP(address tokenContract, uint256 tokenId, uint256 tokenPrice, uint32 expiryTime) public {
         bytes32 entryHash = getEntryHash(tokenContract, tokenId);
         NFTEntry memory nftEntry = _escrowEntries[entryHash];
@@ -104,23 +108,28 @@ contract ShippingDvP is Ownable {
         require(_deliveryComplete[entryHash] == false, "Cannot list completed NFT");
         require(nftEntry.nftPrice != UINT256_MAX, "Cannot list token marked for Delivery");
         require(expiryTime == 0 || expiryTime > uint32(block.timestamp) + SHORTEST_EXPIRY, "Expiry too soon");
-        //IERC721(tokenContract).transferFrom(msg.sender, address(this), tokenId);
 
         //Does the token already have an entry?
-        
         if (nftEntry.escrowValue > 0) { // already listed
-            //since this NFT has already been listed in the DVP we only need to update the ownership and nftPrice
+            //does this token already have a listing? IE are we changing the price?
+            //If we purchased, and relisted it will need a new entry.
+            if (nftEntry.nftPrice == 0) {
+                _escrowEntries[entryHash].entryIndex = _nftListings[tokenContract].length;
+                _nftListings[tokenContract].push(tokenId);
+                _escrowEntries[entryHash].seller = msg.sender;
+            }
+
+            //since this NFT has already been listed in the DVP we only need to update the nftPrice and expiry
             _escrowEntries[entryHash].nftPrice = tokenPrice;
-            _escrowEntries[entryHash].seller = msg.sender;
-            _escrowEntries[entryHash].entryIndex = _nftListings[tokenContract].length;
+            _escrowEntries[entryHash].expiryBlockTime = expiryTime;
+            
             emit ListForResale(nftEntry.seller, msg.sender, tokenContract, tokenId, tokenPrice);
         } else {
             // first listing
             nftEntry = NFTEntry(msg.sender, msg.sender, tokenContract, tokenId, tokenPrice, 0, _nftListings[tokenContract].length, expiryTime);
             _escrowEntries[entryHash] = nftEntry;
+            _nftListings[tokenContract].push(tokenId);
         }
-        
-        _nftListings[tokenContract].push(tokenId);
         
         // Do not give points - points are awarded for double ended interactions.
     }
@@ -223,7 +232,7 @@ contract ShippingDvP is Ownable {
 
     //4. Delivery complete, called from current owner of NFT
     function deliveryComplete(uint256 tokenId) public {
-        bytes32 entryHash = bytes32(tokenId);//getEntryHash(tokenContract, tokenId);
+        bytes32 entryHash = bytes32(tokenId);
         NFTEntry memory nftEntry = _escrowEntries[entryHash];
 
         require(nftEntry.nftPrice == UINT256_MAX, "Not out for delivery");
@@ -255,9 +264,9 @@ contract ShippingDvP is Ownable {
 
         address nftOwner = IERC721(tokenContract).ownerOf(tokenId);
         require(nftOwner == msg.sender, "Must own NFT to get refund");
+        require(nftEntry.escrowValue > 0, "Escrow already paid out");
 
-        // refund to current owner
-        SafeERC20.safeTransferFrom(IERC20(_megabucks), address(this), nftOwner, nftEntry.escrowValue);
+        delete _escrowEntries[entryHash]; //prevent re-entrancy
 
         //send refund receipt
         GenericNFT(_refundReceipt).safeMint(nftOwner, tokenId);
@@ -265,12 +274,15 @@ contract ShippingDvP is Ownable {
         //Burn NFT
         GenericNFT(tokenContract).dvpBurn(tokenId);
 
+        // refund to current owner
+        SafeERC20.safeTransferFrom(IERC20(_megabucks), address(this), nftOwner, nftEntry.escrowValue);
+
         //no points
         emit RefundPurchase(nftOwner, tokenContract, tokenId, nftEntry.escrowValue);
-        delete _escrowEntries[entryHash];
         delete _shippingAddresses[entryHash];
     }   
 
+    // Can be added into DVP tokenscript
     function collectPlatformFee() public onlyOwner {
         SafeERC20.safeTransfer(IERC20(_megabucks), owner(), _platformEarnings);
     }
@@ -320,6 +332,28 @@ contract ShippingDvP is Ownable {
 
     function getPlatformPoints(address user) public view returns (uint256) {
         return _points[user];
+    }
+
+    // Helper function for filter: does the wallet own the token?
+    function isOwner(address tokenContract, address wallet) public view returns (bool) {
+        address owner = Ownable(tokenContract).owner();
+        return owner == wallet;
+    }
+
+    // Helper function for filter: can the NFT ship feature be used?
+    function canShip(address tokenContract, uint256 tokenId) public view returns (bool) {
+        bytes32 entryHash = getEntryHash(tokenContract, tokenId);
+        NFTEntry memory nftEntry = _escrowEntries[entryHash];
+
+        return (nftEntry.escrowValue > 0 && nftEntry.nftPrice == UINT256_MAX);
+    }
+
+    // Helper function for filter: can the NFT be refunded?
+    function canRefund(address tokenContract, uint256 tokenId) public view returns (bool) {
+        bytes32 entryHash = getEntryHash(tokenContract, tokenId);
+        NFTEntry memory nftEntry = _escrowEntries[entryHash];
+
+        return (nftEntry.escrowValue > 0 && nftEntry.nftPrice == 0);
     }
 
     //Should this service have a facility to return fees by the owner?
