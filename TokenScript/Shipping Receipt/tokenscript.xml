@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ts:token xmlns:ts="http://tokenscript.org/2024/01/tokenscript"
+		  xmlns:xml="http://www.w3.org/XML/1998/namespace"
+		  xsi:schemaLocation="http://tokenscript.org/2024/01/tokenscript https://www.tokenscript.org/schemas/2024-01/tokenscript.xsd"
+		  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		  xmlns:ethereum="urn:ethereum:constantinople"
+		  name="Shipping-Receipt">
+	<ts:label>
+		<ts:plurals xml:lang="en">
+			<ts:string quantity="one">Shipping Receipt</ts:string>
+			<ts:string quantity="other">Shipping Receipts</ts:string>
+		</ts:plurals>
+	</ts:label>
+    	<ts:meta>
+        <ts:description xml:lang="en">
+            Goods have been shipped to you, use this receipt to confirm shipment.
+        </ts:description>
+		<ts:iconUrl xml:lang="en">https://ipfs.io/ipfs/QmWbWvbNTqe46A5GoZ3PyDWshFWD9Xe4mpk6Y1Vpso96Yv</ts:iconUrl>
+    </ts:meta>
+    <ts:contract interface="erc721" name="Token">
+        <ts:address network="11155111">0x1E515D259Db1d6F6b48241b3Eb3B139d602197cA</ts:address>
+    </ts:contract>
+    <ts:contract name="DVP">
+        <ts:address network="11155111">0x84759f034fEa769052B19f9b5bE94678E0426107</ts:address>
+    </ts:contract>
+    <ts:origins>
+        <ts:ethereum contract="Token"/>
+    </ts:origins>
+	<ts:cards>
+
+        <ts:card type="action" name="confirm" buttonClass="primary" origins="Token">
+            <ts:label>
+                <ts:string xml:lang="en">
+                    Confirm Delivery
+                </ts:string>
+            </ts:label>
+        
+                    <ts:transaction>
+                <ethereum:transaction contract="DVP" function="deliveryComplete" >
+                    <ts:data>
+                        <ts:uint256 ref="tokenId"/>
+                    </ts:data>
+                </ethereum:transaction>
+            </ts:transaction>
+
+			<ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+				<ts:include type="html" src="./confirm.html" />
+            </ts:view>
+            
+        </ts:card>
+
+    </ts:cards>
+
+</ts:token>

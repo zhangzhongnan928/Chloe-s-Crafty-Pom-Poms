@@ -1,0 +1,126 @@
+<ts:token xmlns:ethereum="urn:ethereum:constantinople" xmlns:ts="http://tokenscript.org/2024/01/tokenscript" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Shipping-Receipt" xsi:schemaLocation="http://tokenscript.org/2024/01/tokenscript https://www.tokenscript.org/schemas/2024-01/tokenscript.xsd">
+	<ts:label>
+		<ts:plurals xml:lang="en">
+			<ts:string quantity="one">Shipping Receipt</ts:string>
+			<ts:string quantity="other">Shipping Receipts</ts:string>
+		</ts:plurals>
+	</ts:label>
+    	<ts:meta>
+        <ts:description xml:lang="en">
+            Goods have been shipped to you, use this receipt to confirm shipment.
+        </ts:description>
+		<ts:iconUrl xml:lang="en">https://ipfs.io/ipfs/QmWbWvbNTqe46A5GoZ3PyDWshFWD9Xe4mpk6Y1Vpso96Yv</ts:iconUrl>
+    </ts:meta>
+    <ts:contract interface="erc721" name="Token">
+        <ts:address network="11155111">0x1E515D259Db1d6F6b48241b3Eb3B139d602197cA</ts:address>
+    </ts:contract>
+    <ts:contract name="DVP">
+        <ts:address network="11155111">0x84759f034fEa769052B19f9b5bE94678E0426107</ts:address>
+    </ts:contract>
+    <ts:origins>
+        <ts:ethereum contract="Token"/>
+    </ts:origins>
+	<ts:cards>
+
+        <ts:card buttonClass="primary" name="confirm" origins="Token" type="action">
+            <ts:label>
+                <ts:string xml:lang="en">
+                    Confirm Delivery
+                </ts:string>
+            </ts:label>
+        
+                    <ts:transaction>
+                <ethereum:transaction contract="DVP" function="deliveryComplete">
+                    <ts:data>
+                        <ts:uint256 ref="tokenId"/>
+                    </ts:data>
+                </ethereum:transaction>
+            </ts:transaction>
+
+			<ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+				
+            <h2>Confirm delivery of </h2>
+<div id="name"></div>
+<br/>
+<script type="text/javascript">//&lt;![CDATA[
+
+    //fetch token, name and address
+    const dvpContract = '0x84759f034fEa769052B19f9b5bE94678E0426107';
+    
+    const provider = new ethers.JsonRpcProvider(rpcURL, {
+        chainId: Number(chainID),
+        name: 'sepolia'
+    });
+
+    const purchaseCaller = new ethers.Contract(dvpContract, [
+        "function _escrowEntries(bytes32 tokenData) public view returns (tuple(address,address,address,uint256,uint256,uint256,uint256,uint32))"
+    ], provider);
+
+    async function getListing() {
+        try {
+            // Call the contract method
+            console.log(currentTokenInstance.tokenId);
+            const hexString = ethers.toBeHex(currentTokenInstance.tokenId, 32);
+            console.log(hexString);
+
+            const entry = await purchaseCaller._escrowEntries(hexString);
+            console.log("Entry: " + entry);
+
+            //need the tokenId and tokenContract
+            const JSONEntry = {
+                tokenContract: entry[2],
+                tokenId: entry[3].toString()
+            }
+
+            // Return the JSON object
+            return JSONEntry;
+        } catch (error) {
+            console.error("Error fetching listings:", error);
+            return null;
+        }
+    }
+
+    async function getTokenName(tokenEntry) {
+        try {
+            const nameCaller = new ethers.Contract(tokenEntry.tokenContract, [
+                "function name() public view returns (string)"
+            ], provider);
+
+            const entry = await nameCaller.name();
+            console.log("Entry: " + entry);
+            // Return the JSON object
+            return entry + " #" + tokenEntry.tokenId;
+        } catch (error) {
+            console.error("Error fetching listings:", error);
+            return null;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", async function() {
+        //call function
+
+        try {
+            let thisEntry = await getListing();
+            
+            console.log("Entry: ", thisEntry);
+
+            let name = await getTokenName(thisEntry);
+
+            const nameContainer = document.getElementById('name');
+
+            nameContainer.innerHTML = name;
+
+        } catch (error) {
+            console.log(`Owner error: ${error}`);
+            return false;
+        }
+
+        });
+
+//]]&gt;</script></ts:view>
+            
+        </ts:card>
+
+    </ts:cards>
+
+</ts:token>
