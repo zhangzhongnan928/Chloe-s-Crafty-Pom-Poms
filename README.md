@@ -76,6 +76,7 @@ https://miro.com/app/board/uXjVK8r6iEs=/?share_link_id=595447320342
 
 <img width="429" alt="Owner's UI on the interactive NFT Resell List Pom Pom Function" src="https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/f6ce4b6e-096c-4449-9423-08606ec2c191">
 
+
 This manual provides a comprehensive guide to using Chloe’s Crafty Pom Poms, ensuring a smooth and interactive e-commerce experience.
 
 
