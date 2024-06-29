@@ -1,7 +1,7 @@
 # Chloe's Crafty Pom Poms
 Reimagining e-commerce through a young entrepreneur's journey: Interactive tokens creating a new paradigm for digital-physical transactions.
 
-![Chloe's Crafty Pom Poms](https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/b8cb327f-242f-427c-869a-7e0c7c98c333)
+![Cover image](https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/a604436d-08d6-48fd-8051-b98a8d53ebd4)
 
 ## Chloe's Crafty Pom Poms demonstrates how tokenisation (interactive tokens) can solve fundamental challenges in the e-commerce ecosystem:
 - Accessibility Barriers: Traditional e-commerce excludes young entrepreneurs due to KYC and banking requirements. Our interactive tokens enable participation without these barriers.
