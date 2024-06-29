@@ -1,59 +1,21 @@
 # Chloe's Crafty Pom Poms
-Physical Goods Token: More inclusive, further reduces friction in trading physical goods.
+Reimagining e-commerce through a young entrepreneur's journey: Interactive tokens creating a new paradigm for digital-physical transactions.
+
 ![Chloe's Crafty Pom Poms](https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/b8cb327f-242f-427c-869a-7e0c7c98c333)
 
+## Chloe's Crafty Pom Poms demonstrates how tokenisation (interactive tokens) can solve fundamental challenges in the e-commerce ecosystem:
+- Accessibility Barriers: Traditional e-commerce excludes young entrepreneurs due to KYC and banking requirements. Our interactive tokens enable participation without these barriers.
+- Fragmented User Experience: Current Dapp absed e-commerce platforms offer disconnected processes. Our token based solution unifies the entire commerce journey, from discovery to post-purchase, in a single, interoperable system.
+- Limited Product Representation: Static digital listings fail to capture the dynamic nature of products. Our interactive tokens transform products into responsive digital assets.
+- Opaque Supply Chains: Conventional systems lack transparency. We provide a clear, auditable record of a product's lifecycle, from creation to delivery.
+- Inflexible Monetization: Traditional models restrict revenue streams. Our interactive tokens enable novel approaches like automated royalties and revenue distribution.
+- Centralized Trust Mechanisms: E-commerce typically relies on platform trust. We shift trust to blockchain and smart contracts, enabling secure peer-to-peer transactions.
+- Cross-Platform Limitations: Products and user data are usually confined to single platforms. Our interactive tokens allow seamless movement across different marketplaces and applications.
 
-
-# Contracts
-
-## Chloe’s Crafty Pom Poms Ownership NFT
-A NFT to repersent the ownership of a Pom Pom. 10% royalty  
-
-Shipping API https://goshippo.com/
-
-Primary sell link example [https://viewer.tokenscript.org/?chain=84532&contract=0xCb53cF1bEc34A732D06BD4312E1b04D2479E45C7#card=Primary&tokenId=1
-](https://viewer-staging.tokenscript.org/?chain=11155111&contract=0x63ca42a324D42489FD78510616818b7DeF656e04#card=purchase) 
-
-Resell link example [https://viewer.tokenscript.org/?chain=84532&contract=0xCb53cF1bEc34A732D06BD4312E1b04D2479E45C7#card=Resell&tokenId=1](https://viewer-staging.tokenscript.org/?chain=11155111&contract=0x63ca42a324D42489FD78510616818b7DeF656e04#card=purchase)
-
-## Shipping Receipt NFT
-A NFT to repersent the ownership of a Shipping Reciept. 
-
-Confirm shipping and burn "Chloe’s Crafty Pom Poms Ownership NFT" to get the corresponding Shipping Reciept.    
-
-## Refund Receipt NFT
-A NFT to repersent the ownership of a Refund Reciept. 
-
-Confirm refunding and burn "Chloe’s Crafty Pom Poms Ownership NFT" to get the corresponding Refund Reciept.    
-
-## Governance Token
-An ERC-20 token earned by each successful DvPs:
-
-Points will be issued to both buyer and seller if a successful sales (whenever our DvP contract take a 2% fee) is done via our DvP contract. Points amount can be based on how much fee collected for that TX, then half to buyer, half to seller.
-
-Chloe’s Crafty Pom Poms Ownership NFT v $
-
-Chloe’s Crafty Pom Poms Ownership NFT v Shipping Receipt NFT
-
-## DvP contract
-
-https://smartlayer-att.vercel.app/offer
-
-Hold $, provide DvP logic, collect fees.
-
-Chloe’s Crafty Pom Poms Ownership NFT, Shipping Receipt NFT, Refund Receipt NFT are all pre approved to DvP contract.
-
-Chloe’s Crafty Pom Poms Ownership NFT v ERC-20 $ (Attestation based) 2% fee
-
-Chloe’s Crafty Pom Poms Ownership NFT v Shipping Receipt NFT
-
-Chloe’s Crafty Pom Poms Ownership NFT v Refund Receipt NFT 2% fee
+By addressing these issues through Chloe's use case, we demonstrate how tokenisation (interactive tokens) can make e-commerce more efficient, transparent, and inclusive, adapting it to emerging Web3 paradigms.
 
 ![Chloe’s Crafty Pom Poms(5)](https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/bd0e80d6-a3a6-4001-8fee-95fcba9ae846)
-### https://miro.com/app/board/uXjVK8r6iEs=/?share_link_id=595447320342
-
-
-# TokenScript
+https://miro.com/app/board/uXjVK8r6iEs=/?share_link_id=595447320342
 
 # Chloe’s Crafty Pom Poms User Manual
 
@@ -115,3 +77,52 @@ Chloe’s Crafty Pom Poms Ownership NFT v Refund Receipt NFT 2% fee
 <img width="429" alt="Owner's UI on the interactive NFT Resell List Pom Pom Function" src="https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/f6ce4b6e-096c-4449-9423-08606ec2c191">
 
 This manual provides a comprehensive guide to using Chloe’s Crafty Pom Poms, ensuring a smooth and interactive e-commerce experience.
+
+
+# Contracts
+
+## Chloe’s Crafty Pom Poms Ownership NFT
+A NFT to repersent the ownership of a Pom Pom. 10% royalty  
+
+Shipping API https://goshippo.com/
+
+Primary sell link example [https://viewer.tokenscript.org/?chain=84532&contract=0xCb53cF1bEc34A732D06BD4312E1b04D2479E45C7#card=Primary&tokenId=1
+](https://viewer-staging.tokenscript.org/?chain=11155111&contract=0x63ca42a324D42489FD78510616818b7DeF656e04#card=purchase) 
+
+Resell link example [https://viewer.tokenscript.org/?chain=84532&contract=0xCb53cF1bEc34A732D06BD4312E1b04D2479E45C7#card=Resell&tokenId=1](https://viewer-staging.tokenscript.org/?chain=11155111&contract=0x63ca42a324D42489FD78510616818b7DeF656e04#card=purchase)
+
+## Shipping Receipt NFT
+A NFT to repersent the ownership of a Shipping Reciept. 
+
+Confirm shipping and burn "Chloe’s Crafty Pom Poms Ownership NFT" to get the corresponding Shipping Reciept.    
+
+## Refund Receipt NFT
+A NFT to repersent the ownership of a Refund Reciept. 
+
+Confirm refunding and burn "Chloe’s Crafty Pom Poms Ownership NFT" to get the corresponding Refund Reciept.    
+
+## Governance Token
+An ERC-20 token earned by each successful DvPs:
+
+Points will be issued to both buyer and seller if a successful sales (whenever our DvP contract take a 2% fee) is done via our DvP contract. Points amount can be based on how much fee collected for that TX, then half to buyer, half to seller.
+
+Chloe’s Crafty Pom Poms Ownership NFT v $
+
+Chloe’s Crafty Pom Poms Ownership NFT v Shipping Receipt NFT
+
+## DvP contract
+
+https://smartlayer-att.vercel.app/offer
+
+Hold $, provide DvP logic, collect fees.
+
+Chloe’s Crafty Pom Poms Ownership NFT, Shipping Receipt NFT, Refund Receipt NFT are all pre approved to DvP contract.
+
+Chloe’s Crafty Pom Poms Ownership NFT v ERC-20 $ (Attestation based) 2% fee
+
+Chloe’s Crafty Pom Poms Ownership NFT v Shipping Receipt NFT
+
+Chloe’s Crafty Pom Poms Ownership NFT v Refund Receipt NFT 2% fee
+
+# TokenScript
+
