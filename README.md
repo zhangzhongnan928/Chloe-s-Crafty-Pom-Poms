@@ -4,6 +4,10 @@ Reimagining e-commerce through a young entrepreneur's journey: Interactive token
 ![Cover image](https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/86fb2d28-3678-422f-a994-8648e55c1d82)
 
 ## Chloe's Crafty Pom Poms demonstrates how tokenisation (interactive tokens) can solve fundamental challenges in the e-commerce ecosystem:
+
+ERC-5169 and TokenScript make PowPow tokens interactive, embedding Shipping, Refund, and Listing functions directly within the token. 
+This portability allows seamless integration with third-party wallets, marketplaces and etc., enhancing functionality and user experience across various platforms.
+
 - Accessibility Barriers: Traditional e-commerce excludes young entrepreneurs due to KYC and banking requirements. Our interactive tokens enable participation without these barriers.
 - Fragmented User Experience: Current Dapp absed e-commerce platforms offer disconnected processes. Our token based solution unifies the entire commerce journey, from discovery to post-purchase, in a single, interoperable system.
 - Limited Product Representation: Static digital listings fail to capture the dynamic nature of products. Our interactive tokens transform products into responsive digital assets.
