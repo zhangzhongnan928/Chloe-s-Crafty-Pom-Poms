@@ -68,26 +68,15 @@
 		</ts:label>
 	</ts:selection>
 	<ts:cards>
-		<!-- Transfer NFT Card -->
-        <ts:card type="action" name="transfer" buttonClass="primary" origins="Token">
+        <ts:card type="token" name="info" origins="Token" buttonClass="secondary">
             <ts:label>
-                <ts:string xml:lang="en">
-                    Transfer Pom Pom
-                </ts:string>
-            </ts:label>
-            <ts:transaction>
-                <ethereum:transaction contract="Token" function="transferFrom">
-                    <ts:data>
-                        <ts:address ref="ownerAddress"/>
-                        <ts:address ref="to"/>
-                        <ts:uint256 ref="tokenId"/>
-                    </ts:data>
-                </ethereum:transaction>
-            </ts:transaction>
-            <ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-                <p>Transfer your Pom Pom to another address by providing the recipient's address and the Pom Pom ID.</p>
-                <input type="text" id="to" value="Recipient Address"/>
+				<ts:string xml:lang="en">Info</ts:string>
+			</ts:label>
+
+			<ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+				<ts:include type="html" src="./info.html" />
             </ts:view>
+            
         </ts:card>
 
         <ts:card exclude="cannotShip" type="action" name="ship" buttonClass="primary" origins="Token">
@@ -197,6 +186,28 @@
 				<ts:include type="html" src="./purchase.html" />
             </ts:view>
             
+        </ts:card>
+
+        		<!-- Transfer NFT Card -->
+        <ts:card type="action" name="transfer" buttonClass="primary" origins="Token">
+            <ts:label>
+                <ts:string xml:lang="en">
+                    Transfer Pom Pom
+                </ts:string>
+            </ts:label>
+            <ts:transaction>
+                <ethereum:transaction contract="Token" function="transferFrom">
+                    <ts:data>
+                        <ts:address ref="ownerAddress"/>
+                        <ts:address ref="to"/>
+                        <ts:uint256 ref="tokenId"/>
+                    </ts:data>
+                </ethereum:transaction>
+            </ts:transaction>
+            <ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+                <p>Transfer your Pom Pom to another address by providing the recipient's address and the Pom Pom ID.</p>
+                <input type="text" id="to" value="Recipient Address"/>
+            </ts:view>
         </ts:card>
 
 	</ts:cards>
