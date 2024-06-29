@@ -11,9 +11,10 @@ A NFT to repersent the ownership of a Pom Pom. 10% royalty
 
 Shipping API https://goshippo.com/
 
-Primary sell link example https://viewer.tokenscript.org/?chain=84532&contract=0xCb53cF1bEc34A732D06BD4312E1b04D2479E45C7#card=Primary&tokenId=1
+Primary sell link example [https://viewer.tokenscript.org/?chain=84532&contract=0xCb53cF1bEc34A732D06BD4312E1b04D2479E45C7#card=Primary&tokenId=1
+](https://viewer-staging.tokenscript.org/?chain=11155111&contract=0x63ca42a324D42489FD78510616818b7DeF656e04#card=purchase) 
 
-Resell link example https://viewer.tokenscript.org/?chain=84532&contract=0xCb53cF1bEc34A732D06BD4312E1b04D2479E45C7#card=Resell&tokenId=1
+Resell link example [https://viewer.tokenscript.org/?chain=84532&contract=0xCb53cF1bEc34A732D06BD4312E1b04D2479E45C7#card=Resell&tokenId=1](https://viewer-staging.tokenscript.org/?chain=11155111&contract=0x63ca42a324D42489FD78510616818b7DeF656e04#card=purchase)
 
 ## Shipping Receipt NFT
 A NFT to repersent the ownership of a Shipping Reciept. 
@@ -54,18 +55,63 @@ Chloe’s Crafty Pom Poms Ownership NFT v Refund Receipt NFT 2% fee
 
 # TokenScript
 
-<img width="400" alt="Screenshot 2024-06-14 at 12 50 38 PM" src="https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/4db11b49-494b-450f-a871-2f7cb1f6c7d5"> 
+# Chloe’s Crafty Pom Poms User Manual
 
-<img width="522" alt="Screenshot 2024-06-14 at 12 50 47 PM" src="https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/d9df1d58-88f5-4f6f-a600-b846cfa8e81d"> 
+## As Chloe, UI on PomPom Token(Chloe’s Crafty Pom Poms Ownership NFT) 
+### 1. Minting Interface
+- **Step 1:** Click the “Mint” button to create the NFT for your product.
 
-<img width="520" alt="Screenshot 2024-06-14 at 12 50 58 PM" src="https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/c985c6ff-5d23-4d18-bb4a-02d60043fe8c"> 
+<img width="435" alt="Chloe's UI on the interactive NFT" src="https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/b86310f3-f466-41e6-9712-00bba83c0c0e">
 
-<img width="517" alt="Screenshot 2024-06-14 at 12 51 07 PM" src="https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/7104393c-8ff5-49c5-ad22-07a96d1ab913"> 
+### 2. Selling Interface
+- **Step 1:** Select the NFT you want to sell.
+- **Step 2:** Set the price in USDC and specify the offer expiry period.
+- **Step 3:** Click “List Pom Pom” to generate an attestation link.
 
-<img width="518" alt="Screenshot 2024-06-14 at 12 51 19 PM" src="https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/64b1f276-b302-4940-985c-37dc2f3117dd">
+<img width="430" alt="Chloe's UI on the interactive NFT Sell List Pom Pom" src="https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/f14f29c9-157c-4cdf-84f3-e8e6e7fbff72">
 
+## As Buyer, UI on PomPom Token (Chloe’s Crafty Pom Poms Ownership NFT) 
+### 1. Buyer Purchase Process
+- **Step 1:** Access the purchase interface.
+- **Step 2:** Select the token you want to purchase and click “Purchase Pom Pom.”
+- **Step 3:** Complete the transaction.
 
+<img width="431" alt="Buyer's UI on the interactive NFT 1" src="https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/21d0013d-f50e-406a-a895-475ea7481cf4">
 
+<img width="432" alt="Buyer's UI on the interactive NFT" src="https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/af1a5853-2f72-427b-84cd-8855ecaecc5c">
 
+## As Owner, UI on PomPom Token (Chloe’s Crafty Pom Poms Ownership NFT), Shipping Reciept (Shipping Receipt NFT) and Refund Reciept(Refund Receipt NFT) 
+<img width="432" alt="Owner's UI on the interactive NFT 1" src="https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/1dedc607-df83-4332-9b0f-25491abb1516">
 
+<img width="432" alt="Owner's UI on the interactive NFT 2" src="https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/5e9f9eea-49bb-4b0e-8c3d-350f08317f8f">
 
+### 1. Shipping Process
+- **Step 1:** After purchase, access the shipping interface.
+- **Step 2:** Enter the physical shipping address and confirm to see the shipping cost.
+- **Step 3:** Click “Ship Pom Pom” to finalize shipping.
+
+<img width="432" alt="Owner's UI on the interactive NFT Ship Pom Pom Function" src="https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/1447e299-c3e8-42db-bc23-0f8956cc017c">
+
+### 2. Shipping Receipt:** Confirm delivery and track your shipment.
+
+<img width="434" alt="Owner's UI on the interactive NFT Shipping Reciept" src="https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/ecbbb897-8abd-4858-b66a-f5494596b88e">
+
+### 3. Refund Process
+- **Step 1:** If needed, access the refund interface.
+- **Step 2:** Confirm the refund details and check the link for the refund receipt.
+- **Step 3:** Click “Refund Pom Pom” to process the refund.
+
+<img width="429" alt="Owner's UI on the interactive NFT Refund Function" src="https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/a1967be6-c93c-4d1e-913c-988e896906c5">
+
+### 4. Refund Receipt:** View and verify your refund details.
+
+<img width="436" alt="Owner's UI on the interactive NFT Refund Reciept" src="https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/9400a295-7a28-4e26-92e3-16d776943528">
+
+### 5. Resell Process
+- **Step 1:** Select the NFT you want to sell.
+- **Step 2:** Set the price in USDC and specify the offer expiry period.
+- **Step 3:** Click “List Pom Pom” to list.
+
+<img width="429" alt="Owner's UI on the interactive NFT Resell List Pom Pom Function" src="https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/f6ce4b6e-096c-4449-9423-08606ec2c191">
+
+This manual provides a comprehensive guide to using Chloe’s Crafty Pom Poms, ensuring a smooth and interactive e-commerce experience.
