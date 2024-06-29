@@ -110,7 +110,7 @@ contract ShippingDvP is Ownable {
         require(expiryTime == 0 || expiryTime > uint32(block.timestamp) + SHORTEST_EXPIRY, "Expiry too soon");
 
         //Does the token already have an entry?
-        if (nftEntry.nftPrice > 0) { // already listed
+        if (nftEntry.escrowValue > 0) { // already listed
             //does this token already have a listing? IE are we changing the price?
             //If we purchased, and relisted it will need a new entry.
             if (nftEntry.nftPrice == 0) {
@@ -144,7 +144,7 @@ contract ShippingDvP is Ownable {
     //   - DvP receives 2% platform fee
     //   - Adjust NFT price on entry (which would still exist to hold the 70% Delivery escrow)
     //   - seller gets remainder 98% of fee
-    function purchaseNFT(address tokenContract, uint256 tokenId) public {
+    function purchaseNFT(address tokenContract, uint256 tokenId) public returns(uint256, uint256, uint256) {
         //first locate NFT
         bytes32 entryHash = getEntryHash(tokenContract, tokenId);
         NFTEntry memory nftEntry = _escrowEntries[entryHash];
@@ -188,6 +188,8 @@ contract ShippingDvP is Ownable {
         _points[nftEntry.seller] += POINTS_PER_SALE;
 
         emit PurchaseNFT(nftEntry.seller, msg.sender, tokenContract, tokenId, nftEntry.nftPrice);
+
+        return platformFee, escrowValue, remainder
     }
 
     //2.5 purchase via attestation
