@@ -57,8 +57,8 @@
 
     async function getCurrentListings() {
         try {
-            //const dList = await deliverCaller.getCurrentDeliveries(currentTokenInstance.contractAddress, currentTokenInstance.ownerAddress);
-            const dList = await deliverCaller.getCurrentDeliveries(currentTokenInstance.contractAddress, "0x4FAe779c2101B3D8cF8BA4365f19d772eF678EB7");
+            const dList = await deliverCaller.getCurrentDeliveries(currentTokenInstance.contractAddress, currentTokenInstance.ownerAddress);
+            //const dList = await deliverCaller.getCurrentDeliveries(currentTokenInstance.contractAddress, "0x4FAe779c2101B3D8cF8BA4365f19d772eF678EB7");
             console.log("Deliver List: " + dList);
 
             // Format the result into JSON
