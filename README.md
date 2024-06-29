@@ -19,6 +19,10 @@ https://miro.com/app/board/uXjVK8r6iEs=/?share_link_id=595447320342
 
 # Chloe’s Crafty Pom Poms User Manual
 
+** To get test $USD, please open the [USD Stablecoin token](https://viewer-staging.tokenscript.org/?chain=84532&contract=0x8B0FEFd94667FdD8cEf52f8C1EeB5bAEc8d64a00) and click "Purchase Test USD Stablecoin"
+
+** To buy Pom Pom, please Open the [PomPom Token](https://viewer-staging.tokenscript.org/?chain=84532&contract=0xC10BFc9cBdeF1bcce2F6279F2DA0d8Cdfe8319e1)  and click "Purchase Pom Pom" 
+
 ## As Chloe, UI on PomPom Token(Chloe’s Crafty Pom Poms Ownership NFT) 
 ### 1. Minting Interface
 - **Step 1:** Click the “Mint” button to create the NFT for your product.
