@@ -18,10 +18,10 @@
 		<ts:iconUrl xml:lang="en">https://raw.githubusercontent.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/main/Metadata/Chloe%E2%80%99s%20Crafty%20Pom%20Poms%20Ownership%20NFT.jpg</ts:iconUrl>
     </ts:meta>
     <ts:contract interface="erc721" name="Token">
-        <ts:address network="84532">0xBE59BD577E81CEe171ab08d803a80Ed45Cd0Faed</ts:address>
+        <ts:address network="84532">0xC10BFc9cBdeF1bcce2F6279F2DA0d8Cdfe8319e1</ts:address>
     </ts:contract>
     <ts:contract name="DVP">
-        <ts:address network="84532">0x3BD455f7DD0528De62a233D2aC4a070E4Bc7641d</ts:address>
+        <ts:address network="84532">0x3107484CefF71C14C975B42109d16Cd12B1d3ECf</ts:address>
         <ts:abi>
 			<![CDATA[
 			[
@@ -100,7 +100,7 @@
             <ts:transaction>
                 <ethereum:transaction contract="DVP" function="deliver" >
                     <ts:data>
-                        <ts:address>0xBE59BD577E81CEe171ab08d803a80Ed45Cd0Faed</ts:address>
+                        <ts:address>0xC10BFc9cBdeF1bcce2F6279F2DA0d8Cdfe8319e1</ts:address>
                         <ts:uint256 ref="tokenId"/>
                         <ts:string ref="addressEntry"/>
                         <ts:uint256 ref="shippingCost"/>
@@ -135,7 +135,7 @@
             <ts:transaction>
                 <ethereum:transaction contract="DVP" function="listToDVP" >
                     <ts:data>
-                        <ts:address>0xBE59BD577E81CEe171ab08d803a80Ed45Cd0Faed</ts:address>
+                        <ts:address>0xC10BFc9cBdeF1bcce2F6279F2DA0d8Cdfe8319e1</ts:address>
                         <ts:uint256 ref="tokenId"/>
                         <ts:uint256 ref="tokenPrice"/>
                         <ts:uint32 ref="expiryTime"/>
@@ -157,13 +157,24 @@
             <ts:transaction>
                 <ethereum:transaction function="refund" contract="DVP">
                     <ts:data>
-                        <ts:address>0xBE59BD577E81CEe171ab08d803a80Ed45Cd0Faed</ts:address>
+                        <ts:address>0xC10BFc9cBdeF1bcce2F6279F2DA0d8Cdfe8319e1</ts:address>
                         <ts:uint256 ref="tokenId"/>
                     </ts:data>
                 </ethereum:transaction>
             </ts:transaction>
             <ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
                 <ts:include type="html" src="./refund.html" />
+            </ts:view>
+        </ts:card>
+
+        <ts:card exclude="cannotMint" type="token" name="shippingData" buttonClass="primary" origins="Token">
+            <ts:label>
+                <ts:string xml:lang="en">
+                    Pending Deliveries 
+                </ts:string>
+            </ts:label>
+            <ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+                <ts:include type="html" src="./deliveries.html" />
             </ts:view>
         </ts:card>
 
@@ -177,7 +188,7 @@
             <ts:transaction>
                 <ethereum:transaction contract="DVP" function="purchaseNFT" >
                     <ts:data>
-                        <ts:address>0xBE59BD577E81CEe171ab08d803a80Ed45Cd0Faed</ts:address>
+                        <ts:address>0xC10BFc9cBdeF1bcce2F6279F2DA0d8Cdfe8319e1</ts:address>
                         <ts:uint256 ref="purchaseTokenId"/>
                     </ts:data>
                 </ethereum:transaction>
@@ -230,7 +241,7 @@
 		<ts:origins>
 			<ethereum:call as="bool" contract="DVP" function="isOwner">
 				<ts:data>
-                    <ts:address>0xBE59BD577E81CEe171ab08d803a80Ed45Cd0Faed</ts:address>
+                    <ts:address>0xC10BFc9cBdeF1bcce2F6279F2DA0d8Cdfe8319e1</ts:address>
 					<ts:address ref="ownerAddress"/>
 				</ts:data>
 			</ethereum:call>
@@ -242,7 +253,7 @@
 		<ts:origins>
 			<ethereum:call as="bool" contract="DVP" function="canShipOrRefund">
 				<ts:data>
-					<ts:address>0xBE59BD577E81CEe171ab08d803a80Ed45Cd0Faed</ts:address>
+					<ts:address>0xC10BFc9cBdeF1bcce2F6279F2DA0d8Cdfe8319e1</ts:address>
 					<ts:uint256 ref="tokenId"/>
 				</ts:data>
 			</ethereum:call>

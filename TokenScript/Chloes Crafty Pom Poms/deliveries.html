@@ -1,0 +1,126 @@
+<style type="text/css">
+    .token-box {
+        display: flex;
+        align-items: center;
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin: 10px 0;
+        background-color: #f9f9f9;
+    }
+
+    .token-icon {
+        width: 50px;
+        height: 50px;
+        margin-right: 20px;
+    }
+
+    .token-id,
+    .token-price,
+    .token-expiry {
+        margin-right: 20px;
+    }
+
+    .token-id {
+        font-weight: bold;
+    }
+</style>
+
+<h1>These are deliveries that require shipping</h1>
+<br></br>
+<div id="noitems" style="display: none;">Nothing needs shipping</div>
+<div id="deliverlist"></div>
+<br></br>
+<script type="text/javascript">
+
+    function createDeliverHTML(item) {
+        return `
+            <tr>
+                <td>${item.tokenId}</td>
+                <td>${item.escrowValue}</td>
+                <td>${item.shippingAddress}</td>
+                <td>${item.shippingFeePaid}</td>
+            </tr>
+        `;
+    }
+
+    const dvpContract = '0x3107484CefF71C14C975B42109d16Cd12B1d3ECf';
+    const ERC20Currency = '0x8B0FEFd94667FdD8cEf52f8C1EeB5bAEc8d64a00';
+
+    const provider = new ethers.JsonRpcProvider(rpcURL, {
+        chainId: Number(chainID),
+        name: 'base sepolia'
+    });
+
+    const deliverCaller = new ethers.Contract(dvpContract, [
+        "function getCurrentDeliveries(address tokenContract, address seller) public view returns (tuple(uint256,uint256,string,uint256)[])"
+    ], provider);
+
+    async function getCurrentListings() {
+        try {
+            //const dList = await deliverCaller.getCurrentDeliveries(currentTokenInstance.contractAddress, currentTokenInstance.ownerAddress);
+            const dList = await deliverCaller.getCurrentDeliveries(currentTokenInstance.contractAddress, "0x4FAe779c2101B3D8cF8BA4365f19d772eF678EB7");
+            console.log("Deliver List: " + dList);
+
+            // Format the result into JSON
+            const dListJSON = saleList.map(entry => ({
+                tokenId: entry[0],
+                escrowValue: ethers.formatUnits(entry[1], 18) + " $USD",
+                shippingAddress: entry[2].toString(),
+                shippingFeePaid: ethers.formatUnits(entry[3], 18) + " $USD"
+            }));
+
+            // Return the JSON object
+            return dListJSON;
+        } catch (error) {
+            console.error("Error fetching listings:", error);
+            return null;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", async function () {
+        //call function
+        let saleList = null;
+
+        try {
+            let dList = await getCurrentListings();
+
+            console.log("Deliver List: ", dList);
+
+            const container = document.getElementById('deliverlist');
+            var html = '';
+
+            if (dList.length == 0) {
+                document.getElementById('noitems').style.display = 'block';
+            } else {
+                html = `
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Token ID</th>
+                                    <th>Escrow Value</th>
+                                    <th>Shipping Address</th>
+                                    <th>Shipping Fee</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+
+                    dList.forEach((entry) => {
+                        html += createDeliverHTML(entry);
+                    });
+
+                    html += `
+                            </tbody>
+                        </table>
+                    `;
+            }
+
+            container.innerHTML = html;
+
+        } catch (error) {
+            console.log(`Owner error: ${error}`);
+            return false;
+        }
+
+    });
+</script>

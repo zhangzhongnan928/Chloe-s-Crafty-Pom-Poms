@@ -15,7 +15,7 @@
         <ts:address network="84532">0x5e426CB6446BA6387760F078eeeEf01c0C823168</ts:address>
     </ts:contract>
     <ts:contract name="DVP">
-        <ts:address network="84532">0x3BD455f7DD0528De62a233D2aC4a070E4Bc7641d</ts:address>
+        <ts:address network="84532">0x3107484CefF71C14C975B42109d16Cd12B1d3ECf</ts:address>
     </ts:contract>
     <ts:origins>
         <ts:ethereum contract="Token"/>
@@ -45,7 +45,7 @@
 <script type="text/javascript">//&lt;![CDATA[
 
     //fetch token, name and address
-    const dvpContract = '0x3BD455f7DD0528De62a233D2aC4a070E4Bc7641d';
+    const dvpContract = '0x3107484CefF71C14C975B42109d16Cd12B1d3ECf';
     
     const provider = new ethers.JsonRpcProvider(rpcURL, {
         chainId: Number(chainID),

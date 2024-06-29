@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <h2>Confirm refund for: </h2>
 <div id="name"></div>
-<br/>
+<br />
 <div id="refundamount"></div>
-<br/>
+<br />
 <div id="shipping-link">
     Check this link for Refund Receipt:
-    <a href="https://viewer-staging.tokenscript.org/?chain=84532&contract=0x7471366d5b567e5045BE1d344A4434E08028DB74" target="_blank">
-      Link to Refund Receipt
+    <a href="https://viewer-staging.tokenscript.org/?chain=84532&contract=0x7471366d5b567e5045BE1d344A4434E08028DB74"
+        target="_blank">
+        Link to Refund Receipt
     </a>
 </div>
 <script type="text/javascript">
     //fetch token, name and address
-    const dvpContract = '0x3BD455f7DD0528De62a233D2aC4a070E4Bc7641d';
-    
+    const dvpContract = '0x3107484CefF71C14C975B42109d16Cd12B1d3ECf';
+
     const provider = new ethers.JsonRpcProvider(rpcURL, {
         chainId: Number(chainID),
         name: 'sepolia'
@@ -23,13 +24,13 @@
         "function _escrowEntries(bytes32 tokenData) public view returns (tuple(address,address,address,uint256,uint256,uint256,uint256,uint32))"
     ], provider);
 
-        function getEntryHash(tokenContract, tokenId) {
-            const tokenIdHex = ethers.toBeHex(currentTokenInstance.tokenId, 32);
-            const encoded = ethers.concat([tokenContract, tokenIdHex]);
-            console.log("ENCODED: " + encoded);
-            const hash = ethers.keccak256(encoded);
-            return hash;
-        }
+    function getEntryHash(tokenContract, tokenId) {
+        const tokenIdHex = ethers.toBeHex(currentTokenInstance.tokenId, 32);
+        const encoded = ethers.concat([tokenContract, tokenIdHex]);
+        console.log("ENCODED: " + encoded);
+        const hash = ethers.keccak256(encoded);
+        return hash;
+    }
 
     async function getListing() {
         try {
@@ -71,16 +72,16 @@
         }
     }
 
-    document.addEventListener("DOMContentLoaded", async function() {
+    document.addEventListener("DOMContentLoaded", async function () {
         try {
             // First get name from props
             const nameContainer = document.getElementById('name');
 
             const refundAmountContainer = document.getElementById('refundamount');
-            
+
             let thisEntry = await getListing();
             let nameEntry = await getTokenName(thisEntry);
-            
+
             refundAmountContainer.innerHTML = "Amount to be refunded: $US " + thisEntry.escrowValue;
             nameContainer.innerHTML = nameEntry;
         } catch (error) {
@@ -88,5 +89,5 @@
             return false;
         }
 
-        });
+    });
 </script>
