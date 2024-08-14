@@ -1,5 +1,5 @@
 # Chloe's Crafty Pom Poms
-Reimagining e-commerce through a young entrepreneur's journey: Interactive tokens creating a new paradigm for digital-physical transactions.
+Reimagining e-commerce through a young entrepreneur's journey: Tapps creating a new paradigm for digital-physical transactions.
 
 ![Cover image](https://github.com/zhangzhongnan928/Chloe-s-Crafty-Pom-Poms/assets/33795543/86fb2d28-3678-422f-a994-8648e55c1d82)
 
